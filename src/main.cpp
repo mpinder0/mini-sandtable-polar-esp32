@@ -1,18 +1,48 @@
 #include <Arduino.h>
-
-// put function declarations here:
-int myFunction(int, int);
+#include "motor_control.h"
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200);
+  Serial.println("MotorControl demo starting...");
+
+  MotorControl mc;
+
+  const unsigned long step_delay = 50; // ms
+  const int steps_t = 100;
+  const int steps_r = 100;
+
+  Serial.println("Stepping Theta forward...");
+  for (int i = 0; i < steps_t; ++i) {
+    mc.step(AXIS_THETA);
+    delay(step_delay);
+  }
+
+  Serial.println("Stepping Theta backward...");
+  for (int i = 0; i < steps_t; ++i) {
+    mc.step(AXIS_THETA, true);
+    delay(step_delay);
+  }
+
+  mc.motors_release();
+  Serial.println("Motors released (Theta).");
+
+  Serial.println("Stepping Rho forward...");
+  for (int i = 0; i < steps_r; ++i) {
+    mc.step(AXIS_RHO);
+    delay(step_delay);
+  }
+
+  Serial.println("Stepping Rho backward...");
+  for (int i = 0; i < steps_r; ++i) {
+    mc.step(AXIS_RHO, true);
+    delay(step_delay);
+  }
+
+  mc.motors_release();
+  Serial.println("Motors released (Rho). Done demo.");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  // Nothing to do; demo runs in setup
+  delay(1000);
 }
