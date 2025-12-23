@@ -48,9 +48,9 @@ void MotorControl::step(Axis ax, bool reverse)
 {
   set_enable(true);
 
-  if (ax == AXIS_THETA) {
+  if (ax == THETA) {
     theta_step(reverse);
-  } else if (ax == AXIS_RHO) {
+  } else if (ax == RHO) {
     rho_step(reverse);
   }
 }

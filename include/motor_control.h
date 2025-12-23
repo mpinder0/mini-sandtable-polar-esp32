@@ -2,9 +2,7 @@
 #define MOTOR_CONTROL_H
 
 #include <Arduino.h>
-
-// Axis enum (theta/rho)
-enum Axis { AXIS_THETA, AXIS_RHO };
+#include "Structs.h"  
 
 class MotorControl {
 public:
