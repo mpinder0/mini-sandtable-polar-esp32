@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mermaid Preview</title>
+  <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: 'default' });</script>
+  <style>body{font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial; padding:20px;}</style>
+</head>
+<body>
+  <h2>Mermaid Diagram Preview — Example call sequence</h2>
+  <div class="mermaid">
+sequenceDiagram
+    note over Mover: New pattern
+    Mover->>Mover: setPattern(pattern)
+    loop play() until moves in pattern are complete
+        Mover->>Planner: getMove(start, end)
+        Planner-->>Mover: return Move
+        loop play_move() until move time (and steps) complete
+            Mover->>MotorControl: step(axis, direction)
+            Mover-->>Mover: Wait for next step due
+        end
+    end
+  </div>
+</body>
+</html>

@@ -12,9 +12,9 @@ classDiagram
     }
 
     class Mover {
-        -pattern: Array<Coordinate>
+        -pattern: Array~Coordinate~
         -play_move(): void
-        +setPattern(Array<Coordinate>): void
+        +set_pattern(Array~Coordinate~): void
         +play_pattern(): void
     }
 
@@ -23,7 +23,7 @@ classDiagram
         +rho_speed: real
         +theta_step_distance
         +rho_step_distance
-        +calculateMove(Coordinate start, Coordinate end): Move
+        +get_move(Coordinate start, Coordinate end): Move
     }
 
     MotorControl --> Mover
@@ -68,9 +68,9 @@ classDiagram
 ```mermaid
 sequenceDiagram
     note over Mover: New pattern
-    Mover->>Mover: setPattern(pattern)
+    Mover->>Mover: set_pattern(pattern)
     loop play() until moves in pattern are complete
-        Mover->>Planner: getMove(start, end)
+        Mover->>Planner: get_move(start, end)
         Planner-->>Mover: return Move
         loop play_move() until move time (and steps) complete
             Mover->>MotorControl: step(axis, direction)
