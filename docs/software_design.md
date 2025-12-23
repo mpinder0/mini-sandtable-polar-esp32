@@ -34,17 +34,20 @@ classDiagram
 
 ```mermaid
 classDiagram
-    class Direction <<enumeration>> {
+    class Direction {
+        <<enumeration>>
         Forwards
         Backwards
     }
 
-    class Axis <<enumeration>> {
+    class Axis {
+        <<enumeration>>
         Theta
         Rho
     }
 
     class Move {
+        <<struct>>
         +theta_steps: int
         +rho_steps: int
         +theta_direction: Direction
@@ -53,6 +56,7 @@ classDiagram
     }
 
     class Coordinate {
+        <<struct>>
         +theta_position: real
         +rho_position: real
     }
