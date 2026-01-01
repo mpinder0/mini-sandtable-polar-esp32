@@ -23,7 +23,7 @@ classDiagram
         +rho_speed: real
         +theta_step_distance
         +rho_step_distance
-        +get_move(Coordinate start, Coordinate end): Move
+        +get_move_steps(Coordinate start, Coordinate end): Move
     }
 
     MotorControl --> Mover
@@ -70,7 +70,7 @@ sequenceDiagram
     note over Mover: New pattern
     Mover->>Mover: set_pattern(pattern)
     loop play() until moves in pattern are complete
-        Mover->>Planner: get_move(start, end)
+        Mover->>Planner: get_move_steps(start, end)
         Planner-->>Mover: return Move
         loop play_move() until move time (and steps) complete
             Mover->>MotorControl: step(axis, direction)
