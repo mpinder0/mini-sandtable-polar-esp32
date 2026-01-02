@@ -32,8 +32,8 @@ Move StepMotionPlanner::get_move_steps(Coordinates start_pos, Coordinates end_po
     move.rhoSteps = std::abs(steps_rho);
 
     // Calculate move time for each axis
-    float move_time_theta = static_cast<float>(delta_theta) / AXIS_SPEED_T;
-    float move_time_rho = static_cast<float>(delta_rho) / AXIS_SPEED_R;
+    float move_time_theta = delta_theta / AXIS_SPEED_T;
+    float move_time_rho = delta_rho / AXIS_SPEED_R;
     // Use the maximum time required for either axis (for slowest axis)
     move.moveTime = (float)std::max(move_time_theta, move_time_rho) * 1000.0f; // Convert to milliseconds
 
