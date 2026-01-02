@@ -1,7 +1,9 @@
 #include <Arduino.h>
 #include "motor_control.h"
+#include "structs.h"
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
   Serial.println("MotorControl demo starting...");
 
@@ -12,14 +14,16 @@ void setup() {
   const int steps_r = 100;
 
   Serial.println("Stepping Theta forward...");
-  for (int i = 0; i < steps_t; ++i) {
-    mc.step(AXIS_THETA);
+  for (int i = 0; i < steps_t; ++i)
+  {
+    mc.step(THETA);
     delay(step_delay);
   }
 
   Serial.println("Stepping Theta backward...");
-  for (int i = 0; i < steps_t; ++i) {
-    mc.step(AXIS_THETA, true);
+  for (int i = 0; i < steps_t; ++i)
+  {
+    mc.step(THETA, true);
     delay(step_delay);
   }
 
@@ -27,14 +31,16 @@ void setup() {
   Serial.println("Motors released (Theta).");
 
   Serial.println("Stepping Rho forward...");
-  for (int i = 0; i < steps_r; ++i) {
-    mc.step(AXIS_RHO);
+  for (int i = 0; i < steps_r; ++i)
+  {
+    mc.step(RHO);
     delay(step_delay);
   }
 
   Serial.println("Stepping Rho backward...");
-  for (int i = 0; i < steps_r; ++i) {
-    mc.step(AXIS_RHO, true);
+  for (int i = 0; i < steps_r; ++i)
+  {
+    mc.step(RHO, true);
     delay(step_delay);
   }
 
@@ -42,7 +48,8 @@ void setup() {
   Serial.println("Motors released (Rho). Done demo.");
 }
 
-void loop() {
+void loop()
+{
   // Nothing to do; demo runs in setup
   delay(1000);
 }
