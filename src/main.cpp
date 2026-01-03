@@ -1,9 +1,14 @@
+#ifndef UNIT_TEST
 #include <Arduino.h>
+#else
+#include "../test/arduino_mock.h"
+#endif
 #include "motor_control.h"
 #include "structs.h"
 
 void setup()
 {
+#ifndef UNIT_TEST
   Serial.begin(115200);
   Serial.println("MotorControl demo starting...");
 
@@ -46,6 +51,7 @@ void setup()
 
   mc.motors_release();
   Serial.println("Motors released (Rho). Done demo.");
+#endif
 }
 
 void loop()
@@ -53,3 +59,15 @@ void loop()
   // Nothing to do; demo runs in setup
   delay(1000);
 }
+
+#ifdef UNIT_TEST
+int main(int argc, char **argv)
+{
+  setup();
+  while (true)
+  {
+    loop();
+  }
+  return 0;
+}
+#endif

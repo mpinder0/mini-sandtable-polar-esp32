@@ -1,7 +1,11 @@
 #ifndef MOTOR_CONTROL_H
 #define MOTOR_CONTROL_H
 
+#ifndef UNIT_TEST
 #include <Arduino.h>
+#else
+#include "../test/arduino_mock.h"
+#endif
 #include "structs.h"
 
 class MotorControl
@@ -13,6 +17,8 @@ public:
     void motors_release();
     void step(Axis ax, bool reverse = false);
     bool get_reference_sensor_value() const;
+    void set_enable(bool enable);
+    bool is_enabled() const;
 
 private:
     unsigned long theta_timestamp_ms;
@@ -39,7 +45,6 @@ private:
 
     void theta_step(bool reverse = false);
     void rho_step(bool reverse = false);
-    void set_enable(bool enable);
 };
 
 #endif // MOTOR_CONTROL_H

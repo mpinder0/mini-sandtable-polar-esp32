@@ -1,5 +1,4 @@
 #include "motor_control.h"
-#include <Arduino.h>
 
 MotorControl::MotorControl()
     : theta_timestamp_ms(0), rho_timestamp_ms(0), enabled(true)
@@ -37,6 +36,11 @@ void MotorControl::set_enable(bool enable)
     // Motor drivers are enabled with LOW (active low enable pin)
     digitalWrite(MOTORS_ENABLE_PIN, enable ? LOW : HIGH);
 #endif
+}
+
+bool MotorControl::is_enabled() const
+{
+    return enabled;
 }
 
 void MotorControl::motors_release()

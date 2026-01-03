@@ -1,5 +1,5 @@
 #include "step_motion_mover.h"
-#include "step_motion_planner.cpp"
+#include "step_motion_planner.h"
 #include <cmath>
 
 StepMotionMover::StepMotionMover(MotorControl &motor_control, StepMotionPlanner &step_motion_planner)

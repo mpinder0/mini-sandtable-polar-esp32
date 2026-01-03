@@ -1,7 +1,11 @@
 #ifndef MOVER_H
 #define MOVER_H
 
+#ifndef UNIT_TEST
 #include <Arduino.h>
+#else
+#include "../test/arduino_mock.h"
+#endif
 #include "motor_control.h"
 #include "step_motion_planner.h"
 #include <vector>

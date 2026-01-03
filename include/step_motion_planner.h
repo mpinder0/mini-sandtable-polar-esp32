@@ -8,7 +8,7 @@
 // Axis limits
 // Theta not limited. in Radians
 // Rho, in mm
-const float AXIS_MAX_R = 0.0f;
+const float AXIS_MIN_R = 0.0f;
 const float AXIS_MAX_R = 71.5f;
 // step size - units
 const float AXIS_STEP_T = deg_to_rad(1.8f); // radians
