@@ -21,6 +21,8 @@ public:
     bool is_enabled() const;
 
 private:
+    unsigned long theta_timestamp_ms;
+    unsigned long rho_timestamp_ms;
     bool enabled;
 
     // Pin definitions
