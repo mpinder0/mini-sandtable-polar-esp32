@@ -6,7 +6,7 @@
 #ifndef UNIT_TEST
 #include <Arduino.h>
 #else
-#include "../test/arduino_mock.h"
+#include <arduino_mock.h>
 #endif
 
 static bool position_at_target(float one_position, float target, float tolerance = 0.1f)

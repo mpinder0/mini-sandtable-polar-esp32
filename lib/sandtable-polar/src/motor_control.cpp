@@ -1,7 +1,7 @@
 #include "motor_control.h"
 
 MotorControl::MotorControl()
-    : theta_timestamp_ms(0), rho_timestamp_ms(0), enabled(true)
+    : theta_timestamp_ms(0), rho_timestamp_ms(0), enabled(false)
 {
     // Configure pins (skipped under UNIT_TEST)
 #ifndef UNIT_TEST
@@ -24,7 +24,7 @@ MotorControl::MotorControl()
     theta_timestamp_ms = now - MIN_STEP_DELAY_MS;
     rho_timestamp_ms = now - MIN_STEP_DELAY_MS;
 
-    set_enable(true);
+    set_enable(false);
 }
 
 MotorControl::~MotorControl() {}

@@ -4,9 +4,9 @@
 #ifndef UNIT_TEST
 #include <Arduino.h>
 #else
-#include "../test/arduino_mock.h"
+#include <arduino_mock.h>
 #endif
-#include "structs.h"
+#include <structs.h>
 
 class MotorControl
 {

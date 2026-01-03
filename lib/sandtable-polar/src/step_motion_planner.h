@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "position_helper.h"
-#include "structs.h"
+#include <structs.h>
 
 // Axis limits
 // Theta not limited. in Radians

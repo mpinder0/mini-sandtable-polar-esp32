@@ -1,10 +1,10 @@
 #ifndef UNIT_TEST
 #include <Arduino.h>
 #else
-#include "../test/arduino_mock.h"
+#include <arduino_mock.h>
 #endif
-#include "motor_control.h"
-#include "structs.h"
+#include <motor_control.h>
+#include <structs.h>
 
 void setup()
 {
@@ -59,15 +59,3 @@ void loop()
   // Nothing to do; demo runs in setup
   delay(1000);
 }
-
-#ifdef UNIT_TEST
-int main(int argc, char **argv)
-{
-  setup();
-  while (true)
-  {
-    loop();
-  }
-  return 0;
-}
-#endif
