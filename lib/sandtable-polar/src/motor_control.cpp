@@ -1,7 +1,7 @@
 #include "motor_control.h"
 
 MotorControl::MotorControl()
-    : theta_timestamp_ms(0), rho_timestamp_ms(0), enabled(false)
+    : theta_next_step_after(0), rho_next_step_after(0), enabled(false)
 {
     // Configure pins (skipped under UNIT_TEST)
 #ifndef UNIT_TEST
@@ -19,12 +19,9 @@ MotorControl::MotorControl()
     digitalWrite(RHO_DIR_PIN, LOW);
 #endif
 
-    // Set timestamps so first step can occur immediately
-    unsigned long now = millis();
-    theta_timestamp_ms = now - MIN_STEP_DELAY_MS;
-    rho_timestamp_ms = now - MIN_STEP_DELAY_MS;
-
     set_enable(false);
+
+    printf("MotorControl initialized\n");
 }
 
 MotorControl::~MotorControl() {}
@@ -71,10 +68,11 @@ void MotorControl::theta_step(bool reverse)
     }
 
     // Wait for minimum step delay
-    while (millis() - theta_timestamp_ms < MIN_STEP_DELAY_MS)
+    while (!at_target_timestamp(millis(), theta_next_step_after))
     {
-        delay(1);
+        delayMicroseconds(200);
     }
+    theta_next_step_after = millis() + MIN_STEP_DELAY_MS;
 
     if (AXIS_T_INVERT_DIR)
         reverse = !reverse;
@@ -89,8 +87,6 @@ void MotorControl::theta_step(bool reverse)
 #else
     printf("theta step %s\n", reverse ? "reverse" : "forward");
 #endif
-
-    theta_timestamp_ms = millis();
 }
 
 void MotorControl::rho_step(bool reverse)
@@ -100,10 +96,11 @@ void MotorControl::rho_step(bool reverse)
         return;
     }
 
-    while (millis() - rho_timestamp_ms < MIN_STEP_DELAY_MS)
+    while (!at_target_timestamp(millis(), rho_next_step_after))
     {
-        delay(1);
+        delayMicroseconds(200);
     }
+    rho_next_step_after = millis() + MIN_STEP_DELAY_MS;
 
     if (AXIS_R_INVERT_DIR)
         reverse = !reverse;
@@ -117,8 +114,6 @@ void MotorControl::rho_step(bool reverse)
 #else
     printf("Rho step %s\n", reverse ? "reverse" : "forward");
 #endif
-
-    rho_timestamp_ms = millis();
 }
 
 bool MotorControl::get_reference_sensor_value() const

@@ -30,14 +30,6 @@ void StepMotionMover::play_pattern()
     }
 }
 
-bool StepMotionMover::at_target_timestamp(unsigned long current_time, unsigned long target_time)
-{
-    // Handle wrap-around by using time delta, unsigned arithmetic
-    const auto delta = target_time - current_time;
-    // Cast as signed to test for negative (overflowed)
-    return static_cast<int32_t>(delta) <= 0;
-}
-
 void StepMotionMover::play_move(Move move)
 {
     unsigned long start_ts = millis();

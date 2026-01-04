@@ -6,21 +6,31 @@
 
 #define PI 3.141592653589793f
 
-static unsigned long millis()
+inline unsigned long mock_time = 0; // in microseconds
+
+inline void set_time_ms(unsigned long ms)
 {
-    using namespace std::chrono;
-    static auto start = steady_clock::now();
-    return (unsigned long)duration_cast<milliseconds>(steady_clock::now() - start).count();
+    mock_time = ms * 1000;
 }
 
-static void delay(unsigned long ms)
+inline unsigned long millis()
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+    return mock_time / 1000;
 }
 
-static void delayMicroseconds(unsigned int us)
+inline unsigned long micros()
 {
-    std::this_thread::sleep_for(std::chrono::microseconds(us));
+    return mock_time;
+}
+
+inline void delay(unsigned long ms)
+{
+    mock_time += ms * 1000;
+}
+
+inline void delayMicroseconds(unsigned int us)
+{
+    mock_time += us;
 }
 
 #endif // ARDUINO_H

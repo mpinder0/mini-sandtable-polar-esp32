@@ -8,6 +8,7 @@
 #endif
 #include "motor_control.h"
 #include "step_motion_planner.h"
+#include "time_helper.h"
 #include <vector>
 
 class StepMotionMover

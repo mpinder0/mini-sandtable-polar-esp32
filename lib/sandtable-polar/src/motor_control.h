@@ -7,6 +7,7 @@
 #include <arduino_mock.h>
 #endif
 #include <structs.h>
+#include <time_helper.h>
 
 class MotorControl
 {
@@ -21,8 +22,8 @@ public:
     bool is_enabled() const;
 
 private:
-    unsigned long theta_timestamp_ms;
-    unsigned long rho_timestamp_ms;
+    unsigned long theta_next_step_after;
+    unsigned long rho_next_step_after;
     bool enabled;
 
     // Pin definitions
@@ -34,7 +35,7 @@ private:
     static constexpr int MOTORS_ENABLE_PIN = 15; // active LOW
 
     // Timing constants
-    // Minimum delay between steps in milliseconds
+    // Minimum delay between steps in milliseconds. Effectively a speed limit.
     static constexpr unsigned long MIN_STEP_DELAY_MS = 5;
     // Step pulse width in microseconds (1 ms = 1000 us)
     static constexpr unsigned int STEP_PULSE_US = 1000;
