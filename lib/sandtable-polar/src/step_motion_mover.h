@@ -22,13 +22,9 @@ public:
     void play_move(Move move);
 
 private:
-    unsigned long theta_next_ts;
-    unsigned long rho_next_ts;
     MotorControl &motor_control;
     StepMotionPlanner &planner;
     std::vector<Coordinates> pattern;
-
-    bool at_target_timestamp(unsigned long current_time, unsigned long target_time);
 };
 
 #endif // MOVER_H

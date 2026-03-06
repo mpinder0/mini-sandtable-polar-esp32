@@ -3,7 +3,7 @@
 #include <cmath>
 
 StepMotionMover::StepMotionMover(MotorControl &motor_control, StepMotionPlanner &step_motion_planner)
-    : theta_next_ts(0), rho_next_ts(0), motor_control(motor_control), planner(step_motion_planner)
+    : motor_control(motor_control), planner(step_motion_planner)
 {
     // pass
 }
@@ -51,7 +51,7 @@ void StepMotionMover::play_move(Move move)
         current_ts = millis();
 
         // Step theta axis if it's time
-        if (theta_steps_done < move.thetaSteps && at_target_timestamp(current_ts, next_theta_ts))
+        if (theta_steps_done < move.thetaSteps && after_target_timestamp(current_ts, next_theta_ts))
         {
             motor_control.step(THETA, move.thetaDir == BACKWARD);
             theta_steps_done++;
@@ -59,7 +59,7 @@ void StepMotionMover::play_move(Move move)
         }
 
         // Step rho axis if it's time
-        if (rho_steps_done < move.rhoSteps && at_target_timestamp(current_ts, next_rho_ts))
+        if (rho_steps_done < move.rhoSteps && after_target_timestamp(current_ts, next_rho_ts))
         {
             motor_control.step(RHO, move.rhoDir == BACKWARD);
             rho_steps_done++;
