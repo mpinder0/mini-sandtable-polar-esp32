@@ -6,8 +6,8 @@
 #else
 #include <arduino_mock.h>
 #endif
-#include <structs.h>
-#include <time_helper.h>
+#include "structs.h"
+#include "time_helper.h"
 #include "abstract_motor_control.h"
 
 class MotorControl : public AbstractMotorControl

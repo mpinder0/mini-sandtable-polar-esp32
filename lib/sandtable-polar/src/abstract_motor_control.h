@@ -1,7 +1,7 @@
 #ifndef ABSTRACT_MOTOR_CONTROL_H
 #define ABSTRACT_MOTOR_CONTROL_H
 
-#include <structs.h>
+#include "structs.h"
 
 class AbstractMotorControl
 {
