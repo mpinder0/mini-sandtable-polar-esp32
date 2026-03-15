@@ -2,7 +2,7 @@
 #include "step_motion_planner.h"
 #include <cmath>
 
-StepMotionMover::StepMotionMover(MotorControl &motor_control, StepMotionPlanner &step_motion_planner)
+StepMotionMover::StepMotionMover(AbstractMotorControl &motor_control, StepMotionPlanner &step_motion_planner)
     : motor_control(motor_control), planner(step_motion_planner)
 {
     // pass

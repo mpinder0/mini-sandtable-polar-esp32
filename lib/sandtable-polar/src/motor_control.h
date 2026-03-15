@@ -8,18 +8,19 @@
 #endif
 #include <structs.h>
 #include <time_helper.h>
+#include "abstract_motor_control.h"
 
-class MotorControl
+class MotorControl : public AbstractMotorControl
 {
 public:
     MotorControl();
     ~MotorControl();
 
-    void motors_release();
-    void step(Axis ax, bool reverse = false);
-    bool get_reference_sensor_value() const;
-    void set_enable(bool enable);
-    bool is_enabled() const;
+    void motors_release() override;
+    void step(Axis ax, bool reverse = false) override;
+    bool get_reference_sensor_value() const override;
+    void set_enable(bool enable) override;
+    bool is_enabled() const override;
 
 private:
     unsigned long theta_next_step_after;
