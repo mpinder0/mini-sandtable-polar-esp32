@@ -3,12 +3,12 @@
 
 StepMotionPlanner::StepMotionPlanner()
 {
-    // Constructor implementation (if needed)
+    // pass
 }
 
 StepMotionPlanner::~StepMotionPlanner()
 {
-    // Destructor implementation (if needed)
+    // pass
 }
 
 Move StepMotionPlanner::get_move_steps(Coordinates start_pos, Coordinates end_pos)

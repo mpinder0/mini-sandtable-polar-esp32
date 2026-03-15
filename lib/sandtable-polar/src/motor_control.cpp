@@ -24,7 +24,10 @@ MotorControl::MotorControl()
     printf("MotorControl initialized\n");
 }
 
-MotorControl::~MotorControl() {}
+MotorControl::~MotorControl()
+{
+    // pass
+}
 
 void MotorControl::set_enable(bool enable)
 {
