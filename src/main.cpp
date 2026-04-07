@@ -4,58 +4,30 @@
 #include <arduino_mock.h>
 #endif
 #include <motor_control.h>
+#include <step_motion_planner.h>
+#include <step_motion_mover.h>
 #include <structs.h>
 
 void setup()
 {
 #ifndef UNIT_TEST
-  Serial.begin(115200);
-  Serial.println("MotorControl demo starting...");
+  MotorControl motorControl;
+  StepMotionPlanner motionPlanner;
+  StepMotionMover motionMover(motorControl, motionPlanner);
 
-  MotorControl mc;
+  std::vector<Coordinates> pattern = {
+      {0, 0},
+      {0.174533, 0},
+      {0.174533, 10},
+      {0.174533, 10},
+      {0.174533, 0}};
 
-  const unsigned long step_delay = 50; // ms
-  const int steps_t = 100;
-  const int steps_r = 100;
-
-  Serial.println("Stepping Theta forward...");
-  for (int i = 0; i < steps_t; ++i)
-  {
-    mc.step(THETA);
-    delay(step_delay);
-  }
-
-  Serial.println("Stepping Theta backward...");
-  for (int i = 0; i < steps_t; ++i)
-  {
-    mc.step(THETA, true);
-    delay(step_delay);
-  }
-
-  mc.motors_release();
-  Serial.println("Motors released (Theta).");
-
-  Serial.println("Stepping Rho forward...");
-  for (int i = 0; i < steps_r; ++i)
-  {
-    mc.step(RHO);
-    delay(step_delay);
-  }
-
-  Serial.println("Stepping Rho backward...");
-  for (int i = 0; i < steps_r; ++i)
-  {
-    mc.step(RHO, true);
-    delay(step_delay);
-  }
-
-  mc.motors_release();
-  Serial.println("Motors released (Rho). Done demo.");
+  motionMover.set_pattern(pattern);
+  motionMover.play_pattern();
 #endif
 }
 
 void loop()
 {
-  // Nothing to do; demo runs in setup
   delay(1000);
 }
