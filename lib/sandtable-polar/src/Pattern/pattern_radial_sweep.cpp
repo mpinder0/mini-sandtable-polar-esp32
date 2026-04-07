@@ -22,9 +22,9 @@ PatternRadialSweep::PatternRadialSweep()
 
     for (int i = 0; i < num_points; ++i)
     {
-        float t = i * half_angle_step;      // angle in radians
+        float t = i * full_angle_step;      // angle in radians
         pattern.push_back({t, min_radius}); // start at the center
-        t = i * full_angle_step;            // angle in radians
+        t = t + half_angle_step;            // angle in radians, half step further
         pattern.push_back({t, max_radius}); // Move to the outer edge
     }
 }
