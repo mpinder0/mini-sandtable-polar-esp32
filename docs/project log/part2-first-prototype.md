@@ -17,7 +17,7 @@ The first prototype featured a circular sand-table bed, 113 mm in diameter, with
 
 I already had the Raspberry Pi from previous projects, so I purchased the motor HAT and other components to use with it. The Raspberry Pi was also an easy way to get started quickly, allowing me to write the code in Python, a language I was already somewhat familiar with. Having a full operating system on the Pi (Raspberry Pi OS) was also advantageous, providing easy file management and the ability to remotely control the device, interactively starting and stopping scripts while testing and debugging.
 
-The mechanism uses a 60-tooth gear for the theta axis and 10-tooth drive gears, giving a 6:1 reduction. The larger gear was sized such that it would allow theta motor placement away from the centre of the assemnbly, where the rho motor is instaled, whilst also being an easily divisable gear ratio between the two axis. Because the linear axis is fixed on top of the rotating assembly, the rho motor must step every time the theta motor steps (1 rho step for 6 in theta) to maintain the correct relative position and avoid introducing an offset between the arm and the rotating frame.
+The mechanism uses a 60-tooth gear for the theta axis and 10-tooth drive gears, giving a 6:1 reduction. The larger gear was sized such that it would allow theta motor placement away from the centre of the assembly, where the rho motor is instaled, whilst also being an easily divisable gear ratio between the two axis. Because the linear axis is fixed on top of the rotating assembly, the rho motor must step every time the theta motor steps (1 rho step for 6 in theta, given the larger theta gear ratio) to maintain the correct relative position and avoid rho drifting in or out as the theta axis moves.
 
 ![First prototype top mechanism](./media/proto1_mech.jpg)
 ![First prototype motors](./media/proto1_motors.jpg)
@@ -27,8 +27,12 @@ Initial build and testing was undertaken circa June 2025
 ## First prototype lessons learned
 
 - Very slow
-    - Python — checked and was executing cyclically in less than 1 ms
+    - Python — checked and was fully executing around 1ms, cyclically, however in order to drive the steppers fast enough this would need to be improved.
     - Motor HAT update — stepper control uses ICs capable of partial stepping using PWM. Partial stepping can be disabled, but the communication rate between the ICs on the HAT is limited by this.
-    - Reducer gear ratio on the stepper motor requires many steps for small distances moved
+    - Reducer gear ratio 64:1 on the stepper motor requires many steps for small distances moved (2048 steps for a full rotation)
 - Jumpy ball movement — not sure whether this is the coarseness of the sand, the uneven 3D-printed surface caused by a monotonic top layer, or the pull of the magnet (too weak or too strong)
 - Raspberry Pi is expensive and too large to realistically fit into the small footprint — the [Pi Zero](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/) could be considered as an improvement on both aspects.
+
+## Next steps
+
+Given the lessons learned, in the next itteration I will make significant design changes - Considering alternative processor, motors, and some experimentation to try to get the ball rolling more smoothly through the sand.
