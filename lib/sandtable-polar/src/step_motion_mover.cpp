@@ -36,6 +36,13 @@ void StepMotionMover::play_move(Move move)
     unsigned long current_ts = start_ts;
     unsigned long end_ts = start_ts + move.moveTime;
 
+    printf("Executing move: thetaSteps=%d, rhoSteps=%d, thetaDir=%s, rhoDir=%s, moveTime=%d s\n",
+           move.thetaSteps,
+           move.rhoSteps,
+           (move.thetaDir == FORWARD) ? "FORWARD" : "BACKWARD",
+           (move.rhoDir == FORWARD) ? "FORWARD" : "BACKWARD",
+           move.moveTime);
+
     // Calculate step intervals for each axis
     unsigned long theta_interval = (move.thetaSteps > 0) ? move.moveTime / move.thetaSteps : move.moveTime;
     unsigned long rho_interval = (move.rhoSteps > 0) ? move.moveTime / move.rhoSteps : move.moveTime;
