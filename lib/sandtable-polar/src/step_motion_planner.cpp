@@ -4,6 +4,8 @@
 StepMotionPlanner::StepMotionPlanner()
 {
     // pass
+    printf("Max speed - theta: %.5f rad/s, %.3f steps/s, %.2f ms/step\n", AXIS_SPEED_T, AXIS_SPEED_T / AXIS_STEP_T, 1000.0f / (AXIS_SPEED_T / AXIS_STEP_T));
+    printf("Max speed - rho: %.5f mm/s, %.3f steps/s, %.2f ms/step\n\n", AXIS_SPEED_R, AXIS_SPEED_R / AXIS_STEP_R, 1000.0f / (AXIS_SPEED_R / AXIS_STEP_R));
 }
 
 StepMotionPlanner::~StepMotionPlanner()
@@ -51,7 +53,7 @@ Move StepMotionPlanner::get_move_steps(Coordinates start_pos, Coordinates end_po
     // Use the maximum time required for either axis (for slowest axis)
     move.moveTime = static_cast<unsigned long>(std::max(move_time_theta, move_time_rho) * 1000.0f); // Convert to milliseconds
 
-    printf("move.moveTime: %d ms\n", move.moveTime);
+    printf("ms between steps - theta: %.2f, rho: %.2f\n", (move.thetaSteps > 0) ? (float)move.moveTime / (float)move.thetaSteps : move.moveTime, (move.rhoSteps > 0) ? (float)move.moveTime / (float)move.rhoSteps : move.moveTime);
 
     return move;
 }
