@@ -5,7 +5,7 @@ MotorControl::MotorControl()
 {
     // Configure pins (skipped under UNIT_TEST)
 #ifndef UNIT_TEST
-    pinMode(REFERENCE_SENSOR_PIN, INPUT_PULLUP);
+    pinMode(REFERENCE_SENSOR_PIN, INPUT);
     pinMode(THETA_STEP_PIN, OUTPUT);
     pinMode(THETA_DIR_PIN, OUTPUT);
     pinMode(RHO_STEP_PIN, OUTPUT);
