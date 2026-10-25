@@ -97,11 +97,11 @@ bool StepMotionMover::reference()
 
 void StepMotionMover::play_move(Move move)
 {
-    unsigned long start_ts = millis();
+    unsigned long start_ts = micros();
     unsigned long current_ts = start_ts;
     unsigned long end_ts = start_ts + move.moveTime;
 
-    printf("Executing move: thetaSteps=%d, rhoSteps=%d, thetaDir=%s, rhoDir=%s, moveTime=%d ms\n",
+    printf("Executing move: thetaSteps=%d, rhoSteps=%d, thetaDir=%s, rhoDir=%s, moveTime=%d us\n",
            move.thetaSteps,
            move.rhoSteps,
            (move.thetaDir == FORWARD) ? "FORWARD" : "BACKWARD",
@@ -117,7 +117,7 @@ void StepMotionMover::play_move(Move move)
 
     while (current_ts < end_ts)
     {
-        current_ts = millis();
+        current_ts = micros();
 
         // Step each axis if it's time
         step_axis_if_due(theta, current_ts);

@@ -46,9 +46,9 @@ Move StepMotionPlanner::get_move_steps(Coordinates start_pos, Coordinates end_po
     printf("move_time_theta: %.2f s, move_time_rho: %.2f s\n", move_time_theta, move_time_rho);
 
     // Use the maximum time required for either axis (for slowest axis)
-    move.moveTime = static_cast<unsigned long>(std::max(move_time_theta, move_time_rho) * 1000.0f); // Convert to milliseconds
+    move.moveTime = static_cast<unsigned long>(std::max(move_time_theta, move_time_rho) * 1000000.0f); // Convert to microseconds
 
-    printf("ms between steps - theta: %.2f, rho: %.2f\n", (move.thetaSteps > 0) ? (float)move.moveTime / (float)move.thetaSteps : move.moveTime, (move.rhoSteps > 0) ? (float)move.moveTime / (float)move.rhoSteps : move.moveTime);
+    printf("us between steps - theta: %.2f, rho: %.2f\n", (move.thetaSteps > 0) ? (float)move.moveTime / (float)move.thetaSteps : move.moveTime, (move.rhoSteps > 0) ? (float)move.moveTime / (float)move.rhoSteps : move.moveTime);
 
     return move;
 }
