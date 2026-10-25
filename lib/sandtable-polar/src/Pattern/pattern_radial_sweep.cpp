@@ -18,7 +18,7 @@ PatternRadialSweep::PatternRadialSweep()
     const float min_radius = AXIS_MIN_R; // mm
     const float max_radius = AXIS_MAX_R; // mm
 
-    const int num_points = 100;                          // Total number of rotational points
+    const int num_points = 50;                           // Total number of rotational points
     const float full_angle_step = (2 * PI) / num_points; // radian step between points
     const float half_angle_step = full_angle_step / 2;   // radians per point for the return sweep
 
