@@ -24,18 +24,18 @@ public:
     bool is_enabled() const override;
 
 private:
-    unsigned long theta_next_step_after;
-    unsigned long rho_next_step_after;
+    unsigned long theta_next_step_after; // micros() timestamp
+    unsigned long rho_next_step_after;   // micros() timestamp
     bool enabled;
     int8_t theta_gear_step_counter;
 
     // Pin definitions
-    const int REFERENCE_SENSOR_PIN = 5; // sensor input (active LOW)
-    const int THETA_STEP_PIN = 2;
-    const int THETA_DIR_PIN = 4;
-    const int RHO_STEP_PIN = 16;
-    const int RHO_DIR_PIN = 17;
-    const int MOTORS_ENABLE_PIN = 15; // active LOW
+    static constexpr int REFERENCE_SENSOR_PIN = 5; // sensor input (active LOW)
+    static constexpr int THETA_STEP_PIN = 2;
+    static constexpr int THETA_DIR_PIN = 4;
+    static constexpr int RHO_STEP_PIN = 16;
+    static constexpr int RHO_DIR_PIN = 17;
+    static constexpr int MOTORS_ENABLE_PIN = 15; // active LOW
 
     void theta_step(bool reverse = false);
     void rho_step(bool reverse = false);

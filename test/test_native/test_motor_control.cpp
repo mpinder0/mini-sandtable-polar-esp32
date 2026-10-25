@@ -39,16 +39,14 @@ void test_step_min_time()
 {
     motorControl.set_enable(true);
 
-    set_time_ms(1);
+    set_time_us(1000);
 
-    const auto start_time = millis();
     motorControl.step(THETA);
-    const auto first_step_time = millis();
-    TEST_ASSERT_EQUAL(1, first_step_time);
+    const auto first_step_time = micros();
+    TEST_ASSERT_EQUAL(1000, first_step_time);
     motorControl.step(THETA);
-    const auto second_step_time = millis();
-    // MIN_STEP_DELAY_MS = 1;
-    TEST_ASSERT_EQUAL(first_step_time + 1, second_step_time);
+    const auto second_step_time = micros();
+    TEST_ASSERT_EQUAL(first_step_time + MIN_STEP_DELAY_US, second_step_time);
 }
 
 void setUp()

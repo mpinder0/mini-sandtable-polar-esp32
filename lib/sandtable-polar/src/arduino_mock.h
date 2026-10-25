@@ -9,6 +9,7 @@
 extern unsigned long mock_time; // in microseconds
 
 void set_time_ms(unsigned long ms);
+void set_time_us(unsigned long us);
 unsigned long millis();
 unsigned long micros();
 void delay(unsigned long ms);

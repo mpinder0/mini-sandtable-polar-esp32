@@ -9,7 +9,7 @@
 static constexpr float AXIS_MIN_R = 0.0f;
 static constexpr float AXIS_MAX_R = 66.5f;
 
-static constexpr float microsteps_per_step = 4.0f; // 1/4 stepper driver
+static constexpr float microsteps_per_step = 16.0f; // 1/4 stepper driver
 // Note: theta and rho axis are coupled, so for each theta step rho must also step (theta:rho - 8:1)
 static constexpr int THETA_AXIS_GEAR_RATIO = 8; // 8:1 gear ratio
 
@@ -25,10 +25,10 @@ static constexpr float AXIS_SPEED_R = 5.0f;
 static constexpr float AXIS_SPEED_T_REF = deg_to_rad(10.0f);
 
 // Timing constants
-// Minimum delay between steps in milliseconds. Effectively a speed limit.
-static constexpr unsigned long MIN_STEP_DELAY_MS = 1;
+// Minimum delay between steps in microseconds (1 ms = 1000 us). Effectively a speed limit.
+static constexpr unsigned long MIN_STEP_DELAY_US = 750; // increments of 50us only due to loop delay in motor_control.
 // Step pulse width in microseconds (1 ms = 1000 us)
-static constexpr unsigned int STEP_PULSE_US = 200;
+static constexpr unsigned int STEP_PULSE_US = 150;
 
 // Direction inversion flags (set to true if wiring inverts intended direction)
 static constexpr bool AXIS_T_INVERT_DIR = false;

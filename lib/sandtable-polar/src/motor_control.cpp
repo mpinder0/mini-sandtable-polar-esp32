@@ -71,11 +71,11 @@ void MotorControl::theta_step(bool reverse)
     }
 
     // Wait for minimum step delay
-    while (!after_target_timestamp(millis(), theta_next_step_after))
+    while (!after_target_timestamp(micros(), theta_next_step_after))
     {
-        delayMicroseconds(100);
+        delayMicroseconds(50);
     }
-    theta_next_step_after = millis() + MIN_STEP_DELAY_MS;
+    theta_next_step_after = micros() + MIN_STEP_DELAY_US;
 
     if (AXIS_T_INVERT_DIR)
         reverse = !reverse;
@@ -107,11 +107,11 @@ void MotorControl::rho_step(bool reverse)
         return;
     }
 
-    while (!after_target_timestamp(millis(), rho_next_step_after))
+    while (!after_target_timestamp(micros(), rho_next_step_after))
     {
-        delayMicroseconds(100);
+        delayMicroseconds(50);
     }
-    rho_next_step_after = millis() + MIN_STEP_DELAY_MS;
+    rho_next_step_after = micros() + MIN_STEP_DELAY_US;
 
     if (AXIS_R_INVERT_DIR)
         reverse = !reverse;

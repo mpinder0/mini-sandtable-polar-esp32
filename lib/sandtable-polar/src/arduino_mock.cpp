@@ -7,6 +7,11 @@ void set_time_ms(unsigned long ms)
     mock_time = ms * 1000;
 }
 
+void set_time_us(unsigned long us)
+{
+    mock_time = us;
+}
+
 unsigned long millis()
 {
     return mock_time / 1000;
