@@ -1,5 +1,6 @@
 #include "abstract_pattern.h"
 #include "position_helper.h"
+#include "constants.h"
 
 class PatternRadialSweep : public AbstractPattern
 {
@@ -14,11 +15,12 @@ private:
 PatternRadialSweep::PatternRadialSweep()
 {
     // Generate a simple radial sweep pattern
-    const float min_radius = 0.0f;                       // mm
-    const float max_radius = 70.0f;                      // mm
+    const float min_radius = AXIS_MIN_R; // mm
+    const float max_radius = AXIS_MAX_R; // mm
+
     const int num_points = 100;                          // Total number of rotational points
-    const float full_angle_step = (2 * PI) / num_points; // radians per point
-    const float half_angle_step = PI / 2;                // radians per point for the return sweep
+    const float full_angle_step = (2 * PI) / num_points; // radian step between points
+    const float half_angle_step = full_angle_step / 2;   // radians per point for the return sweep
 
     for (int i = 0; i < num_points; ++i)
     {

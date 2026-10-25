@@ -1,5 +1,6 @@
 #include "abstract_pattern.h"
 #include "position_helper.h"
+#include "constants.h"
 
 class PatternSpiral : public AbstractPattern
 {
@@ -14,10 +15,10 @@ private:
 PatternSpiral::PatternSpiral(bool direction_outward)
 {
     // Generate a simple spiral pattern
-    const float min_radius = 0.0f;  // mm
-    const float max_radius = 70.0f; // mm
+    const float min_radius = AXIS_MIN_R; // mm
+    const float max_radius = AXIS_MAX_R; // mm
 
-    const float sprial_rate = 5.0f;                                          // mm moved in theta per full revolution
+    const float sprial_rate = 5.0f;                                          // mm moved in rho per full revolution
     const int points_per_revolution = 10;                                    // Number of points per full revolution
     const float spiral_rate_per_point = sprial_rate / points_per_revolution; // mm per point
     const float angle_step = (2 * PI) / points_per_revolution;               // radians per point
