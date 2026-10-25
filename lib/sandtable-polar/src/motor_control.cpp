@@ -1,7 +1,7 @@
 #include "motor_control.h"
 
 MotorControl::MotorControl()
-    : theta_next_step_after(0), rho_next_step_after(0), enabled(false)
+    : theta_next_step_after(0), rho_next_step_after(0), enabled(false), theta_gear_step_counter(0)
 {
     // Configure pins (skipped under UNIT_TEST)
 #ifndef UNIT_TEST
@@ -80,6 +80,14 @@ void MotorControl::theta_step(bool reverse)
     if (AXIS_T_INVERT_DIR)
         reverse = !reverse;
 
+    // Update the theta gear step counter and determine if a coupled rho step is needed
+    int8_t rho_step_action = update_theta_counter(reverse ? BACKWARD : FORWARD);
+    if (rho_step_action != 0)
+    {
+        bool rho_dir = rho_step_action > 0;
+        rho_step(rho_dir);
+    }
+
 #ifndef UNIT_TEST
     digitalWrite(THETA_DIR_PIN, !reverse);
 
@@ -128,4 +136,27 @@ bool MotorControl::get_reference_sensor_value() const
     // Under unit tests there is no hardware; return a safe default (not triggered)
     return false;
 #endif
+}
+
+int8_t MotorControl::update_theta_counter(Direction dir)
+{
+    if (dir == FORWARD)
+    {
+        theta_gear_step_counter++;
+        if (theta_gear_step_counter >= THETA_AXIS_GEAR_RATIO)
+        {
+            theta_gear_step_counter = 0;
+            return 1; // One full step of the coupled axis
+        }
+    }
+    else if (dir == BACKWARD)
+    {
+        theta_gear_step_counter--;
+        if (theta_gear_step_counter < 0)
+        {
+            theta_gear_step_counter = THETA_AXIS_GEAR_RATIO - 1;
+            return -1; // One full step of the coupled axis
+        }
+    }
+    return 0; // No full step yet
 }

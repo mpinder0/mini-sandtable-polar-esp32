@@ -9,6 +9,7 @@
 #include "structs.h"
 #include "time_helper.h"
 #include "abstract_motor_control.h"
+#include "constants.h"
 
 class MotorControl : public AbstractMotorControl
 {
@@ -26,27 +27,19 @@ private:
     unsigned long theta_next_step_after;
     unsigned long rho_next_step_after;
     bool enabled;
+    int8_t theta_gear_step_counter;
 
     // Pin definitions
-    static constexpr int REFERENCE_SENSOR_PIN = 5; // sensor input (active LOW)
-    static constexpr int THETA_STEP_PIN = 2;
-    static constexpr int THETA_DIR_PIN = 4;
-    static constexpr int RHO_STEP_PIN = 16;
-    static constexpr int RHO_DIR_PIN = 17;
-    static constexpr int MOTORS_ENABLE_PIN = 15; // active LOW
-
-    // Timing constants
-    // Minimum delay between steps in milliseconds. Effectively a speed limit.
-    static constexpr unsigned long MIN_STEP_DELAY_MS = 1;
-    // Step pulse width in microseconds (1 ms = 1000 us)
-    static constexpr unsigned int STEP_PULSE_US = 200;
-
-    // Direction inversion flags (set to true if wiring inverts intended direction)
-    static constexpr bool AXIS_T_INVERT_DIR = false;
-    static constexpr bool AXIS_R_INVERT_DIR = false;
+    const int REFERENCE_SENSOR_PIN = 5; // sensor input (active LOW)
+    const int THETA_STEP_PIN = 2;
+    const int THETA_DIR_PIN = 4;
+    const int RHO_STEP_PIN = 16;
+    const int RHO_DIR_PIN = 17;
+    const int MOTORS_ENABLE_PIN = 15; // active LOW
 
     void theta_step(bool reverse = false);
     void rho_step(bool reverse = false);
+    int8_t update_theta_counter(Direction dir);
 };
 
 #endif // MOTOR_CONTROL_H

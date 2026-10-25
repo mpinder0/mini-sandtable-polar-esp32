@@ -30,11 +30,6 @@ Move StepMotionPlanner::get_move_steps(Coordinates start_pos, Coordinates end_po
 
     printf("steps_theta: %d, steps_rho: %d\n", steps_theta, steps_rho);
 
-    // apply the coupling ratio between theta and rho axes
-    steps_rho = steps_rho + (static_cast<int>(static_cast<float>(steps_theta) / static_cast<float>(THETA_AXIS_GEAR_RATIO)) * -1);
-
-    printf("after coupling ratio, steps_theta: %d, steps_rho: %d\n", steps_theta, steps_rho);
-
     // Determine direction for each axis
     move.thetaDir = (steps_theta < 0) ? BACKWARD : FORWARD;
     move.rhoDir = (steps_rho < 0) ? BACKWARD : FORWARD;

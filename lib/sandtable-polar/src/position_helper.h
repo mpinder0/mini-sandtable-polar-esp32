@@ -14,13 +14,13 @@ static bool position_at_target(float one_position, float target, float tolerance
     return (one_position >= target - tolerance && one_position <= target + tolerance);
 }
 
-static float deg_to_rad(float deg)
+static constexpr float deg_to_rad(float deg)
 {
     // Convert degrees to radians.
     return deg * (static_cast<float>(PI) / 180.0f);
 }
 
-static float rad_to_deg(float rad)
+static constexpr float rad_to_deg(float rad)
 {
     // Convert radians to degrees.
     return rad * (180.0f / static_cast<float>(PI));
