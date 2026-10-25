@@ -26,7 +26,7 @@ static constexpr float AXIS_SPEED_T_REF = deg_to_rad(10.0f);
 
 // Timing constants
 // Minimum delay between steps in microseconds (1 ms = 1000 us). Effectively a speed limit.
-static constexpr unsigned long MIN_STEP_DELAY_US = 750; // increments of 50us only due to loop delay in motor_control.
+static constexpr unsigned long MIN_STEP_DELAY_US = 750;
 // Step pulse width in microseconds (1 ms = 1000 us)
 static constexpr unsigned int STEP_PULSE_US = 150;
 

@@ -41,12 +41,18 @@ void test_step_min_time()
 
     set_time_us(1000);
 
-    motorControl.step(THETA);
-    const auto first_step_time = micros();
-    TEST_ASSERT_EQUAL(1000, first_step_time);
-    motorControl.step(THETA);
-    const auto second_step_time = micros();
-    TEST_ASSERT_EQUAL(first_step_time + MIN_STEP_DELAY_US, second_step_time);
+    TEST_ASSERT_TRUE(motorControl.step(THETA));
+    // Too soon, refused without blocking
+    TEST_ASSERT_FALSE(motorControl.step(THETA));
+    TEST_ASSERT_EQUAL(1000, micros());
+
+    // Just before the minimum delay
+    delayMicroseconds(MIN_STEP_DELAY_US - 1);
+    TEST_ASSERT_FALSE(motorControl.step(THETA));
+
+    // Minimum delay elapsed
+    delayMicroseconds(1);
+    TEST_ASSERT_TRUE(motorControl.step(THETA));
 }
 
 void setUp()

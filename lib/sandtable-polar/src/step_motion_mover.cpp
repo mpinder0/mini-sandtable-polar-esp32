@@ -65,7 +65,10 @@ bool StepMotionMover::reference()
                 return true;
             }
 
-            motor_control.step(THETA);
+            while (!motor_control.step(THETA))
+            {
+                delayMicroseconds(50);
+            }
             delayMicroseconds(theta_step_delay_us);
         }
 
@@ -79,7 +82,10 @@ bool StepMotionMover::reference()
         // Not found on this rotation, extend rho
         for (int i = 0; i < rho_steps_per_increment && rho_steps_done < rho_max_steps; ++i)
         {
-            motor_control.step(RHO);
+            while (!motor_control.step(RHO))
+            {
+                delayMicroseconds(50);
+            }
             rho_steps_done++;
             delayMicroseconds(rho_step_delay_us);
         }
@@ -95,7 +101,7 @@ void StepMotionMover::play_move(Move move)
     unsigned long current_ts = start_ts;
     unsigned long end_ts = start_ts + move.moveTime;
 
-    printf("Executing move: thetaSteps=%d, rhoSteps=%d, thetaDir=%s, rhoDir=%s, moveTime=%d s\n",
+    printf("Executing move: thetaSteps=%d, rhoSteps=%d, thetaDir=%s, rhoDir=%s, moveTime=%d ms\n",
            move.thetaSteps,
            move.rhoSteps,
            (move.thetaDir == FORWARD) ? "FORWARD" : "BACKWARD",
@@ -118,7 +124,7 @@ void StepMotionMover::play_move(Move move)
         step_axis_if_due(rho, current_ts);
 
         // Small delay to prevent tight loop
-        delayMicroseconds(500); // 0.5 ms
+        delayMicroseconds(MIN_STEP_DELAY_US);
     }
 }
 
@@ -127,7 +133,11 @@ void StepMotionMover::step_axis_if_due(AxisStepper &ax, unsigned long current_ts
     if (ax.steps_done < ax.total_steps && after_target_timestamp(current_ts, ax.next_ts))
     {
         // Time to step the axis
-        motor_control.step(ax.axis, ax.dir == BACKWARD);
+        // Retry on the next loop if the motor isn't ready
+        if (!motor_control.step(ax.axis, ax.dir == BACKWARD))
+        {
+            return;
+        }
         ax.steps_done++;
         ax.next_ts += ax.interval;
 

@@ -1,7 +1,9 @@
 #include "motor_control.h"
 
 MotorControl::MotorControl()
-    : theta_next_step_after(0), rho_next_step_after(0), enabled(false), theta_gear_step_counter(0)
+    : theta_axis{THETA_STEP_PIN, THETA_DIR_PIN, AXIS_T_INVERT_DIR, "theta", 0},
+      rho_axis{RHO_STEP_PIN, RHO_DIR_PIN, AXIS_R_INVERT_DIR, "rho", 0},
+      enabled(false), theta_gear_step_counter(0)
 {
     // Configure pins (skipped under UNIT_TEST)
 #ifndef UNIT_TEST
@@ -48,82 +50,75 @@ void MotorControl::motors_release()
     set_enable(false);
 }
 
-void MotorControl::step(Axis ax, bool reverse)
+bool MotorControl::step(Axis ax, bool reverse)
 {
     set_enable(true);
 
     if (ax == THETA)
     {
-        theta_step(reverse);
+        return theta_step(reverse);
     }
     else if (ax == RHO)
     {
-        rho_step(reverse);
+        return rho_step(reverse);
     }
+    return false;
 }
 
-void MotorControl::theta_step(bool reverse)
+bool MotorControl::theta_step(bool reverse)
 {
-    if (!enabled)
+    if (!axis_ready(theta_axis))
     {
-        // Drivers are disabled; nothing to do
-        return;
+        return false;
     }
-
-    // Wait for minimum step delay
-    while (!after_target_timestamp(micros(), theta_next_step_after))
-    {
-        delayMicroseconds(50);
-    }
-    theta_next_step_after = micros() + MIN_STEP_DELAY_US;
-
-    if (AXIS_T_INVERT_DIR)
-        reverse = !reverse;
 
     // Update the theta gear step counter and determine if a coupled rho step is needed
+    const int8_t previous_counter = theta_gear_step_counter;
     int8_t rho_step_action = update_theta_counter(reverse ? BACKWARD : FORWARD);
-    if (rho_step_action != 0)
+    if (rho_step_action != 0 && !rho_step(rho_step_action > 0))
     {
-        bool rho_dir = rho_step_action > 0;
-        rho_step(rho_dir);
+        // Coupled rho step not possible yet, don't step theta either
+        theta_gear_step_counter = previous_counter;
+        return false;
     }
 
-#ifndef UNIT_TEST
-    digitalWrite(THETA_DIR_PIN, !reverse);
-
-    // Pulse the step pin
-    digitalWrite(THETA_STEP_PIN, HIGH);
-    delayMicroseconds(STEP_PULSE_US);
-    digitalWrite(THETA_STEP_PIN, LOW);
-#else
-    printf("theta step %s\n", reverse ? "reverse" : "forward");
-#endif
+    pulse_axis(theta_axis, reverse);
+    return true;
 }
 
-void MotorControl::rho_step(bool reverse)
+bool MotorControl::rho_step(bool reverse)
 {
-    if (!enabled)
+    if (!axis_ready(rho_axis))
     {
-        return;
+        return false;
     }
 
-    while (!after_target_timestamp(micros(), rho_next_step_after))
-    {
-        delayMicroseconds(50);
-    }
-    rho_next_step_after = micros() + MIN_STEP_DELAY_US;
+    pulse_axis(rho_axis, reverse);
+    return true;
+}
 
-    if (AXIS_R_INVERT_DIR)
+bool MotorControl::axis_ready(const AxisOutput &ax) const
+{
+    // Drivers enabled and minimum step delay elapsed since the last step
+    return enabled && after_target_timestamp(micros(), ax.next_step_after);
+}
+
+void MotorControl::pulse_axis(AxisOutput &ax, bool reverse)
+{
+    ax.next_step_after = micros() + MIN_STEP_DELAY_US;
+
+    if (ax.invert_dir)
         reverse = !reverse;
 
 #ifndef UNIT_TEST
-    digitalWrite(RHO_DIR_PIN, !reverse);
+    digitalWrite(ax.dir_pin, !reverse);
 
-    digitalWrite(RHO_STEP_PIN, HIGH);
+    // Pulse the step pin
+    digitalWrite(ax.step_pin, HIGH);
     delayMicroseconds(STEP_PULSE_US);
-    digitalWrite(RHO_STEP_PIN, LOW);
+    digitalWrite(ax.step_pin, LOW);
 #else
-    printf("Rho step %s\n", reverse ? "reverse" : "forward");
+    printf("%s step %s\n", ax.name, reverse ? "reverse" : "forward");
 #endif
 }
 
