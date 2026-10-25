@@ -24,6 +24,10 @@ void StepMotionMover::set_pattern(std::vector<Coordinates> &new_pattern)
 
 void StepMotionMover::play_pattern()
 {
+    // move to pattern start position
+    Move mv = planner.get_move_steps(current_position, pattern[0]);
+    play_move(mv);
+
     // Loop while moves available in pattern
     for (size_t i = 0; i < pattern.size() - 1; ++i)
     {
@@ -39,7 +43,7 @@ bool StepMotionMover::reference()
     const int theta_steps_per_rotation = static_cast<int>(std::round(2.0f * static_cast<float>(PI) / AXIS_STEP_T));
     const int rho_steps_per_increment = static_cast<int>(std::round(REFERENCE_RHO_INCREMENT / AXIS_STEP_R));
     const int rho_max_steps = static_cast<int>(std::round((AXIS_MAX_R - AXIS_MIN_R) / AXIS_STEP_R));
-    const float sensor_rho_position = AXIS_MAX_R - 4.0f; // The reference sensor is at the maximum rho position, minus and offset
+    const float sensor_rho_position = AXIS_MAX_R - 5.0f; // The reference sensor is at the maximum rho position, minus and offset
 
     // Delay between steps to respect axis speed limits
     // note: theta using a separate (fatser) speed for referencing
@@ -49,50 +53,98 @@ bool StepMotionMover::reference()
     // Rho position is unknown, so treat the starting position as rho = 0
     int rho_steps_done = 0;
 
-    while (true)
+    // 1. Seek: full rotations (motor control handles the theta/rho coupling), extending rho after each one
+    printf("Referencing: full rotation at rho offset %.1f mm\n", rho_steps_done * AXIS_STEP_R);
+    while (seek_sensor(THETA, false, true, theta_steps_per_rotation, theta_step_delay_us) < 0)
     {
-        printf("Referencing: full rotation at rho offset %.1f mm\n", rho_steps_done * AXIS_STEP_R);
-
-        // Full rotation, checking the sensor before each step
-        // (motor control handles the theta/rho coupling)
-        for (int i = 0; i < theta_steps_per_rotation; ++i)
-        {
-            if (motor_control.get_reference_sensor_value())
-            {
-                printf("Reference sensor found\n");
-                // Sensor position is theta zero, rho relative to the start of referencing
-                current_position = {0.0f, sensor_rho_position};
-                return true;
-            }
-
-            while (!motor_control.step(THETA))
-            {
-                delayMicroseconds(50);
-            }
-            delayMicroseconds(theta_step_delay_us);
-        }
-
         if (rho_steps_done >= rho_max_steps)
         {
             // Reached the maximum rho extension without finding the reference. timeout.
             printf("Reference sensor not found after reaching maximum rho extension\n");
-            break;
+            return false;
         }
 
         // Not found on this rotation, extend rho
         for (int i = 0; i < rho_steps_per_increment && rho_steps_done < rho_max_steps; ++i)
         {
-            while (!motor_control.step(RHO))
-            {
-                delayMicroseconds(50);
-            }
+            reference_step(RHO, false, rho_step_delay_us);
             rho_steps_done++;
-            delayMicroseconds(rho_step_delay_us);
         }
+        printf("Referencing: full rotation at rho offset %.1f mm\n", rho_steps_done * AXIS_STEP_R);
+    }
+    printf("Reference sensor found, refining theta\n");
+
+    // 2. Theta forward past the sensor until it turns off.
+    // Theta step counts below are relative to where the sensor turned on going forward.
+    const int theta_past_steps = seek_sensor(THETA, false, false, theta_steps_per_rotation, theta_step_delay_us);
+    if (theta_past_steps < 0)
+    {
+        printf("Referencing failed: sensor did not turn off moving theta forward\n");
+        return false;
     }
 
-    printf("Reference sensor not found\n");
-    return false;
+    // 3. Theta reverse until the sensor turns on again
+    const int theta_back_steps = seek_sensor(THETA, true, true, theta_steps_per_rotation, theta_step_delay_us);
+    if (theta_back_steps < 0)
+    {
+        printf("Referencing failed: sensor did not turn on moving theta in reverse\n");
+        return false;
+    }
+
+    // 4. Move to the centre, between where the sensor turned on going forward (0) and in reverse
+    const int theta_reverse_edge = theta_past_steps - theta_back_steps;
+    const bool theta_to_centre_reverse = theta_reverse_edge > 0;
+    const int theta_to_centre_steps = std::abs(theta_reverse_edge) / 2;
+    for (int i = 0; i < theta_to_centre_steps; ++i)
+    {
+        reference_step(THETA, theta_to_centre_reverse, theta_step_delay_us);
+    }
+    printf("Theta centred on sensor, sensor width %d steps\n", std::abs(theta_reverse_edge));
+
+    // 5. Rho retract until the sensor turns off
+    const int rho_retract_steps = seek_sensor(RHO, true, false, rho_max_steps, rho_step_delay_us);
+    if (rho_retract_steps < 0)
+    {
+        printf("Referencing failed: sensor did not turn off retracting rho\n");
+        return false;
+    }
+
+    // 6. Rho forward until the sensor turns on again
+    if (seek_sensor(RHO, false, true, rho_max_steps, rho_step_delay_us) < 0)
+    {
+        printf("Referencing failed: sensor did not turn on extending rho\n");
+        return false;
+    }
+
+    // Sensor position is theta zero, rho at the known sensor position
+    current_position = {0.0f, sensor_rho_position};
+    printf("Reference complete\n");
+    return true;
+}
+
+void StepMotionMover::reference_step(Axis ax, bool reverse, unsigned int step_delay_us)
+{
+    // Retry until the motor accepts the step
+    while (!motor_control.step(ax, reverse))
+    {
+        delayMicroseconds(50);
+    }
+    delayMicroseconds(step_delay_us);
+}
+
+int StepMotionMover::seek_sensor(Axis ax, bool reverse, bool sensor_state, int max_steps, unsigned int step_delay_us)
+{
+    // Step until the reference sensor reads sensor_state, checking before each step
+    for (int steps = 0; steps < max_steps; ++steps)
+    {
+        if (motor_control.get_reference_sensor_value() == sensor_state)
+        {
+            return steps;
+        }
+        reference_step(ax, reverse, step_delay_us);
+    }
+
+    return (motor_control.get_reference_sensor_value() == sensor_state) ? max_steps : -1;
 }
 
 void StepMotionMover::play_move(Move move)
