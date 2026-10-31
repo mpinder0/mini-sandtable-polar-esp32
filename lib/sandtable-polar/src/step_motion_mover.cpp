@@ -17,6 +17,16 @@ Coordinates StepMotionMover::get_current_position()
     return current_position;
 }
 
+void StepMotionMover::set_theta_position(float theta)
+{
+    current_position.theta = theta;
+}
+
+void StepMotionMover::reset_theta_position()
+{
+    current_position.theta = std::fmod(current_position.theta, 2.0f * static_cast<float>(PI));
+}
+
 void StepMotionMover::set_pattern(std::vector<Coordinates> &new_pattern)
 {
     pattern = new_pattern;
@@ -24,6 +34,9 @@ void StepMotionMover::set_pattern(std::vector<Coordinates> &new_pattern)
 
 void StepMotionMover::play_pattern()
 {
+    // remove any theta rotations beyond full rotation. 2pi radians.
+    reset_theta_position();
+
     // move to pattern start position
     Move mv = planner.get_move_steps(current_position, pattern[0]);
     play_move(mv);

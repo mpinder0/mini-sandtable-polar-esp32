@@ -18,6 +18,8 @@ public:
     ~StepMotionMover();
 
     Coordinates get_current_position();
+    void reset_theta_position();
+    void set_theta_position(float theta);
     void set_pattern(std::vector<Coordinates> &new_pattern);
     void play_pattern();
     void play_move(Move move);
