@@ -1,7 +1,7 @@
 #include <unity.h>
-#include "motor_control.h"
+#include "motor_control_A4988.h"
 
-MotorControl motorControl;
+MotorControlA4988 motorControl;
 
 void test_enable()
 {
@@ -57,7 +57,7 @@ void test_step_min_time()
 
 void setUp()
 {
-    motorControl = MotorControl();
+    motorControl = MotorControlA4988();
 }
 
 void tearDown() {}

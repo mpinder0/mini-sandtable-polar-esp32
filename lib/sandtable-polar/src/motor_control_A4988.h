@@ -1,5 +1,5 @@
-#ifndef MOTOR_CONTROL_H
-#define MOTOR_CONTROL_H
+#ifndef MOTOR_CONTROL_A4988_H
+#define MOTOR_CONTROL_A4988_H
 
 #ifndef UNIT_TEST
 #include <Arduino.h>
@@ -11,11 +11,11 @@
 #include "abstract_motor_control.h"
 #include "constants.h"
 
-class MotorControl : public AbstractMotorControl
+class MotorControlA4988 : public AbstractMotorControl
 {
 public:
-    MotorControl();
-    ~MotorControl();
+    MotorControlA4988();
+    ~MotorControlA4988();
 
     void motors_release() override;
     bool step(Axis ax, bool reverse = false) override;
@@ -54,4 +54,4 @@ private:
     int8_t update_theta_counter(Direction dir);
 };
 
-#endif // MOTOR_CONTROL_H
+#endif // MOTOR_CONTROL_A4988_H

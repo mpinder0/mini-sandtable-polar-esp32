@@ -1,6 +1,9 @@
-#include "motor_control.h"
+#include "motor_control_A4988.h"
 
-MotorControl::MotorControl()
+// Only built for the A4988 hardware (the default), see constants.h
+#ifndef MOTOR_DRIVER_ULN2803
+
+MotorControlA4988::MotorControlA4988()
     : theta_axis{THETA_STEP_PIN, THETA_DIR_PIN, AXIS_T_INVERT_DIR, "theta", 0},
       rho_axis{RHO_STEP_PIN, RHO_DIR_PIN, AXIS_R_INVERT_DIR, "rho", 0},
       enabled(false), theta_gear_step_counter(0)
@@ -26,12 +29,12 @@ MotorControl::MotorControl()
     printf("MotorControl initialized\n");
 }
 
-MotorControl::~MotorControl()
+MotorControlA4988::~MotorControlA4988()
 {
     // pass
 }
 
-void MotorControl::set_enable(bool enable)
+void MotorControlA4988::set_enable(bool enable)
 {
     enabled = enable;
 #ifndef UNIT_TEST
@@ -40,17 +43,17 @@ void MotorControl::set_enable(bool enable)
 #endif
 }
 
-bool MotorControl::is_enabled() const
+bool MotorControlA4988::is_enabled() const
 {
     return enabled;
 }
 
-void MotorControl::motors_release()
+void MotorControlA4988::motors_release()
 {
     set_enable(false);
 }
 
-bool MotorControl::step(Axis ax, bool reverse)
+bool MotorControlA4988::step(Axis ax, bool reverse)
 {
     set_enable(true);
 
@@ -65,7 +68,7 @@ bool MotorControl::step(Axis ax, bool reverse)
     return false;
 }
 
-bool MotorControl::theta_step(bool reverse)
+bool MotorControlA4988::theta_step(bool reverse)
 {
     if (!axis_ready(theta_axis))
     {
@@ -86,7 +89,7 @@ bool MotorControl::theta_step(bool reverse)
     return true;
 }
 
-bool MotorControl::rho_step(bool reverse)
+bool MotorControlA4988::rho_step(bool reverse)
 {
     if (!axis_ready(rho_axis))
     {
@@ -97,13 +100,13 @@ bool MotorControl::rho_step(bool reverse)
     return true;
 }
 
-bool MotorControl::axis_ready(const AxisOutput &ax) const
+bool MotorControlA4988::axis_ready(const AxisOutput &ax) const
 {
     // Drivers enabled and minimum step delay elapsed since the last step
     return enabled && after_target_timestamp(micros(), ax.next_step_after);
 }
 
-void MotorControl::pulse_axis(AxisOutput &ax, bool reverse)
+void MotorControlA4988::pulse_axis(AxisOutput &ax, bool reverse)
 {
     ax.next_step_after = micros() + MIN_STEP_DELAY_US;
 
@@ -122,7 +125,7 @@ void MotorControl::pulse_axis(AxisOutput &ax, bool reverse)
 #endif
 }
 
-bool MotorControl::get_reference_sensor_value() const
+bool MotorControlA4988::get_reference_sensor_value() const
 {
 #ifndef UNIT_TEST
     // Sensor is active LOW
@@ -133,7 +136,7 @@ bool MotorControl::get_reference_sensor_value() const
 #endif
 }
 
-int8_t MotorControl::update_theta_counter(Direction dir)
+int8_t MotorControlA4988::update_theta_counter(Direction dir)
 {
     if (dir == FORWARD)
     {
@@ -155,3 +158,5 @@ int8_t MotorControl::update_theta_counter(Direction dir)
     }
     return 0; // No full step yet
 }
+
+#endif // MOTOR_DRIVER_ULN2803

@@ -3,7 +3,14 @@
 #else
 #include <arduino_mock.h>
 #endif
-#include <motor_control.h>
+// Motor driver selected by build flag, see platformio.ini and constants.h
+#ifdef MOTOR_DRIVER_ULN2803
+#include <motor_control_ULN2803.h>
+using MotorControl = MotorControlULN2803;
+#else
+#include <motor_control_A4988.h>
+using MotorControl = MotorControlA4988;
+#endif
 #include <step_motion_planner.h>
 #include <step_motion_mover.h>
 #include <structs.h>
