@@ -55,6 +55,45 @@ void test_step_min_time()
     TEST_ASSERT_TRUE(motorControl.step(THETA));
 }
 
+// Steps theta n times, waiting the minimum delay before each step
+static void step_theta_n(int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        delayMicroseconds(MIN_STEP_DELAY_US);
+        TEST_ASSERT_TRUE(motorControl.step(THETA));
+    }
+}
+
+void test_theta_coupled_rho_step()
+{
+    set_time_us(1000);
+
+    // No coupled rho step before a full gear ratio of theta steps (so rho is still free to step)
+    step_theta_n(THETA_AXIS_GEAR_RATIO - 1);
+    TEST_ASSERT_TRUE(motorControl.step(RHO));
+
+    // Full gear ratio reached, rho steps with theta (so a direct rho step is too soon)
+    step_theta_n(1);
+    TEST_ASSERT_FALSE(motorControl.step(RHO));
+}
+
+void test_theta_waits_for_coupled_rho()
+{
+    set_time_us(1000);
+    step_theta_n(THETA_AXIS_GEAR_RATIO - 1);
+
+    // Rho just stepped, so the theta step needing a coupled rho step is refused
+    delayMicroseconds(MIN_STEP_DELAY_US);
+    TEST_ASSERT_TRUE(motorControl.step(RHO));
+    TEST_ASSERT_FALSE(motorControl.step(THETA));
+
+    // Gear counter was rolled back, so the retry still carries the coupled rho step
+    delayMicroseconds(MIN_STEP_DELAY_US);
+    TEST_ASSERT_TRUE(motorControl.step(THETA));
+    TEST_ASSERT_FALSE(motorControl.step(RHO));
+}
+
 void setUp()
 {
     motorControl = MotorControlA4988();
@@ -69,5 +108,7 @@ int main()
     RUN_TEST(test_enabled_on_step);
     RUN_TEST(test_disable);
     RUN_TEST(test_step_min_time);
+    RUN_TEST(test_theta_coupled_rho_step);
+    RUN_TEST(test_theta_waits_for_coupled_rho);
     return UNITY_END();
 }
