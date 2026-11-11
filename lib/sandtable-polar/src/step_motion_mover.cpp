@@ -56,7 +56,7 @@ bool StepMotionMover::reference()
     const int theta_steps_per_rotation = static_cast<int>(std::round(2.0f * static_cast<float>(PI) / AXIS_STEP_T));
     const int rho_steps_per_increment = static_cast<int>(std::round(REFERENCE_RHO_INCREMENT / AXIS_STEP_R));
     const int rho_max_steps = static_cast<int>(std::round((AXIS_MAX_R - AXIS_MIN_R) / AXIS_STEP_R));
-    const float sensor_rho_position = AXIS_MAX_R - 5.0f; // The reference sensor is at the maximum rho position, minus and offset
+    const float sensor_rho_position = AXIS_MAX_R - 6.0f; // The reference sensor is at the maximum rho position, minus and offset
 
     // Delay between steps to respect axis speed limits
     // note: theta using a separate (fatser) speed for referencing
