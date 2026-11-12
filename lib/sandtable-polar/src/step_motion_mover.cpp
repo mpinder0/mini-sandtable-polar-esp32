@@ -34,6 +34,9 @@ void StepMotionMover::set_pattern(std::vector<Coordinates> &new_pattern)
 
 void StepMotionMover::play_pattern()
 {
+    if (pattern.empty())
+        return;
+
     // remove any theta rotations beyond full rotation. 2pi radians.
     reset_theta_position();
 

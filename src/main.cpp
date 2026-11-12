@@ -16,18 +16,37 @@ using MotorControl = MotorControlA4988;
 #include <structs.h>
 #include <Pattern/pattern_spiral.cpp>
 #include <Pattern/pattern_radial_sweep.cpp>
+#include <Pattern/pattern_file.h>
+#ifndef UNIT_TEST
+#include <LittleFS.h>
+#endif
 
 MotorControl motorControl;
 StepMotionPlanner motionPlanner;
 StepMotionMover motionMover(motorControl, motionPlanner);
 std::vector<Coordinates> patternSpiral;
 std::vector<Coordinates> patternRadial;
+std::vector<Coordinates> patternFromFile;
+
+// .thr pattern on LittleFS, uploaded from data/ with: pio run -t uploadfs
+static const char *PATTERN_FILE_PATH = "/patterns/example_rose.thr";
 
 void setup()
 {
 #ifndef UNIT_TEST
   patternSpiral = PatternSpiral().get_pattern();
   patternRadial = PatternRadialSweep().get_pattern();
+
+  if (LittleFS.begin())
+  {
+    PatternFile patternFile(LittleFS, PATTERN_FILE_PATH);
+    if (patternFile.is_valid())
+      patternFromFile = patternFile.get_pattern();
+  }
+  else
+  {
+    printf("LittleFS mount failed, has the filesystem been uploaded? (pio run -t uploadfs)\n");
+  }
 
   motionMover.reference();
 
@@ -36,6 +55,12 @@ void setup()
 
   motionMover.set_pattern(patternSpiral);
   motionMover.play_pattern();
+
+  if (!patternFromFile.empty())
+  {
+    motionMover.set_pattern(patternFromFile);
+    motionMover.play_pattern();
+  }
 
   motorControl.motors_release();
 #endif
