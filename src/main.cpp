@@ -26,22 +26,28 @@ StepMotionPlanner motionPlanner;
 StepMotionMover motionMover(motorControl, motionPlanner);
 std::vector<Coordinates> patternSpiral;
 std::vector<Coordinates> patternRadial;
-std::vector<Coordinates> patternFromFile;
+std::vector<Coordinates> patternFromFile_Star;
+std::vector<Coordinates> patternFromFile_10SidePoly;
 
 // .thr pattern on LittleFS, uploaded from data/ with: pio run -t uploadfs
-static const char *PATTERN_FILE_PATH = "/patterns/example_rose.thr";
+static const char *PATTERN_FILE_PATH_STAR = "/patterns/star.thr";
+static const char *PATTERN_FILE_PATH_10_SIDED_POLYGON = "/patterns/10_sided_polygon.thr";
 
 void setup()
 {
 #ifndef UNIT_TEST
   patternSpiral = PatternSpiral().get_pattern();
-  patternRadial = PatternRadialSweep().get_pattern();
+  // patternRadial = PatternRadialSweep().get_pattern();
 
   if (LittleFS.begin())
   {
-    PatternFile patternFile(LittleFS, PATTERN_FILE_PATH);
-    if (patternFile.is_valid())
-      patternFromFile = patternFile.get_pattern();
+    PatternFile patternFileStar(LittleFS, PATTERN_FILE_PATH_STAR);
+    if (patternFileStar.is_valid())
+      patternFromFile_Star = patternFileStar.take_pattern(); // move, no copy
+
+    PatternFile patternFile10SidePoly(LittleFS, PATTERN_FILE_PATH_10_SIDED_POLYGON);
+    if (patternFile10SidePoly.is_valid())
+      patternFromFile_10SidePoly = patternFile10SidePoly.take_pattern(); // move, no copy
   }
   else
   {
@@ -50,15 +56,21 @@ void setup()
 
   motionMover.reference();
 
-  motionMover.set_pattern(patternRadial);
-  motionMover.play_pattern();
+  if (!patternFromFile_Star.empty())
+  {
+    motionMover.set_pattern(patternFromFile_Star);
+    motionMover.play_pattern();
+  }
+
+  // motionMover.set_pattern(patternRadial);
+  // motionMover.play_pattern();
 
   motionMover.set_pattern(patternSpiral);
   motionMover.play_pattern();
 
-  if (!patternFromFile.empty())
+  if (!patternFromFile_10SidePoly.empty())
   {
-    motionMover.set_pattern(patternFromFile);
+    motionMover.set_pattern(patternFromFile_10SidePoly);
     motionMover.play_pattern();
   }
 

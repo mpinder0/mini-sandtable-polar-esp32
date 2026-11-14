@@ -14,15 +14,6 @@ enum Axis
     RHO
 };
 
-struct Move
-{
-    int thetaSteps;
-    int rhoSteps;
-    Direction thetaDir;
-    Direction rhoDir;
-    unsigned long moveTime; // milliseconds
-};
-
 // Per-axis stepping state while executing a move
 struct AxisStepper
 {
@@ -38,6 +29,16 @@ struct Coordinates
 {
     float theta;
     float rho;
+};
+
+struct Move
+{
+    Coordinates targetPosition;
+    int thetaSteps;
+    int rhoSteps;
+    Direction thetaDir;
+    Direction rhoDir;
+    unsigned long moveTime; // milliseconds
 };
 
 #endif
