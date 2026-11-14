@@ -59,8 +59,8 @@ void normalise_theta_start(std::vector<Coordinates> &pattern)
         point.theta -= offset;
 }
 
-ThrPatternBuilder::ThrPatternBuilder(float min_rho, float max_rho, size_t max_points)
-    : min_rho(min_rho), max_rho(max_rho), max_points(max_points)
+ThrPatternBuilder::ThrPatternBuilder(float min_rho, float max_rho, size_t max_points, bool count_only)
+    : min_rho(min_rho), max_rho(max_rho), max_points(max_points), count_only(count_only)
 {
 }
 
@@ -117,10 +117,16 @@ void ThrPatternBuilder::end_line()
         switch (parse_thr_line(line_buffer, min_rho, max_rho, point))
         {
         case ThrLineResult::POINT:
-            if (points.size() >= max_points)
+            if (points_found >= max_points)
+            {
                 over_cap = true;
+            }
             else
-                points.push_back(point);
+            {
+                ++points_found;
+                if (!count_only)
+                    points.push_back(point);
+            }
             break;
         case ThrLineResult::ERROR:
             record_error();

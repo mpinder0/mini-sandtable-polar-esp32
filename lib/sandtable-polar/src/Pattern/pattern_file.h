@@ -8,16 +8,23 @@
 #include "abstract_pattern.h"
 
 // A pattern loaded from a Sisyphus style theta-rho (.thr) file, see thr_parser.h for the format.
-// The whole file is loaded into memory, so files are capped at max_points.
+// The whole pattern is held in memory (8 bytes per point). The file is read twice: first to count
+// the points, then to load them into storage allocated once at the exact size. Files are rejected
+// if they exceed max_points or won't fit in the largest free heap block.
 // The filesystem must already be mounted (e.g. LittleFS.begin()).
 class PatternFile : public AbstractPattern
 {
 public:
-    // 8 bytes per point, the default cap keeps a loaded pattern around 40 KB
-    static constexpr size_t DEFAULT_MAX_POINTS = 5000;
+    // Upper bound on points, 160 KB. In practice the free heap check is usually the tighter limit.
+    static constexpr size_t DEFAULT_MAX_POINTS = 20000;
+    // Heap left free in the largest block after loading, for other allocations
+    static constexpr size_t HEAP_MARGIN_BYTES = 16 * 1024;
 
     PatternFile(fs::FS &fs, const char *path, size_t max_points = DEFAULT_MAX_POINTS);
+    // Returns a copy of the pattern. For large patterns prefer take_pattern().
     std::vector<Coordinates> get_pattern() const override;
+    // Moves the pattern out without copying, the PatternFile is left empty (is_valid() false).
+    std::vector<Coordinates> take_pattern();
 
     // True if the file was read and held at least one point
     bool is_valid() const { return !pattern.empty(); }

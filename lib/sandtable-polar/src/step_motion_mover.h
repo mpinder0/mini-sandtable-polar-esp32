@@ -20,7 +20,9 @@ public:
     Coordinates get_current_position();
     void reset_theta_position();
     void set_theta_position(float theta);
-    void set_pattern(std::vector<Coordinates> &new_pattern);
+    // The mover keeps a reference rather than a copy, so new_pattern must stay alive
+    // (and unchanged) until play_pattern() has finished.
+    void set_pattern(const std::vector<Coordinates> &new_pattern);
     void play_pattern();
     void play_move(Move move);
     // Rotate theta looking for the reference sensor, extending rho after each full rotation.
@@ -34,7 +36,7 @@ private:
 
     AbstractMotorControl &motor_control;
     StepMotionPlanner &planner;
-    std::vector<Coordinates> pattern;
+    const std::vector<Coordinates> *pattern = nullptr;
     Coordinates current_position = {0, 0};
 
     void step_axis_if_due(AxisStepper &ax, unsigned long current_ts);

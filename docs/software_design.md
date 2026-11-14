@@ -114,4 +114,6 @@ classDiagram
 - `ThrPatternBuilder` (`Pattern/thr_parser.h`) does the line splitting and parsing with no filesystem dependency, so it is unit tested on the native env (`test/native/test_pattern`). `PatternFile` itself is tested on the ESP32 (`test/embedded/test_filesystem`).
 - Rho is clamped to 0..1 and scaled to `AXIS_MIN_R`..`AXIS_MAX_R`, so files work on either motor build.
 - Whole rotations are removed from theta so the first point lies in [0, 2pi), avoiding extra spins to reach the start.
-- Malformed lines are skipped and counted. Files over `max_points` (default 5000, ~40 KB) are rejected, as the whole pattern is held in memory.
+- Malformed lines are skipped and counted.
+- The whole pattern is held in memory, so the file is read twice: a count-only pass, then a load into a vector reserved at the exact size (8 bytes per point, no growth by doubling). Files over `max_points` (default 20,000) or too big for the largest free heap block are rejected before anything is allocated.
+- `main.cpp` moves the pattern out with `take_pattern()`, and `StepMotionMover::set_pattern()` keeps a reference instead of a copy, so only one copy of a pattern exists. The vector passed to `set_pattern()` must outlive `play_pattern()`.

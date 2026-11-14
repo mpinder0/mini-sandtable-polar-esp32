@@ -31,13 +31,19 @@ void normalise_theta_start(std::vector<Coordinates> &pattern);
 
 // Builds a pattern from .thr text fed in arbitrary sized chunks (e.g. as read from a file).
 // Handles line splitting, over-long lines and a cap on the number of points.
+// In count_only mode points are counted but not stored, so a file can be sized before
+// any memory is allocated for it.
 class ThrPatternBuilder
 {
 public:
     // Longest line accepted, longer lines are counted as errors
     static constexpr size_t MAX_LINE_LENGTH = 96;
 
-    ThrPatternBuilder(float min_rho, float max_rho, size_t max_points);
+    ThrPatternBuilder(float min_rho, float max_rho, size_t max_points, bool count_only = false);
+
+    // Pre-allocate storage for an expected number of points (e.g. from a count_only pass),
+    // avoiding reallocations while the pattern is built.
+    void reserve(size_t expected_points) { points.reserve(expected_points); }
 
     // Feed the next chunk of text. Returns false once the point cap has been exceeded,
     // after which further input is ignored.
@@ -47,6 +53,8 @@ public:
     // Returns an empty pattern if the point cap was exceeded.
     std::vector<Coordinates> finish();
 
+    // Valid points found so far, also counted in count_only mode
+    size_t point_count() const { return points_found; }
     size_t lines_read() const { return line_count; }
     size_t error_count() const { return errors; }
     // Line number (1 based) of the first malformed line, 0 if none
@@ -57,12 +65,14 @@ private:
     float min_rho;
     float max_rho;
     size_t max_points;
+    bool count_only;
 
     std::vector<Coordinates> points;
     char line_buffer[MAX_LINE_LENGTH + 1];
     size_t line_length = 0;
     bool line_overflow = false;
 
+    size_t points_found = 0;
     size_t line_count = 0;
     size_t errors = 0;
     size_t first_error = 0;

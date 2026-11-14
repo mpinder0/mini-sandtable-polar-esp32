@@ -9,7 +9,7 @@ StepMotionMover::StepMotionMover(AbstractMotorControl &motor_control, StepMotion
 
 StepMotionMover::~StepMotionMover()
 {
-    pattern.clear();
+    pattern = nullptr;
 }
 
 Coordinates StepMotionMover::get_current_position()
@@ -27,28 +27,34 @@ void StepMotionMover::reset_theta_position()
     current_position.theta = std::fmod(current_position.theta, 2.0f * static_cast<float>(PI));
 }
 
-void StepMotionMover::set_pattern(std::vector<Coordinates> &new_pattern)
+void StepMotionMover::set_pattern(const std::vector<Coordinates> &new_pattern)
 {
-    pattern = new_pattern;
+    pattern = &new_pattern;
 }
 
 void StepMotionMover::play_pattern()
 {
-    if (pattern.empty())
+    if (pattern == nullptr || pattern->empty())
         return;
+    const std::vector<Coordinates> &points = *pattern;
 
     // remove any theta rotations beyond full rotation. 2pi radians.
     reset_theta_position();
 
     // move to pattern start position
-    Move mv = planner.get_move_steps(current_position, pattern[0]);
+    Move mv = planner.get_move_steps(current_position, points[0]);
+
+    printf("*** Starting new pattern: Moving from (%.3f, %.3f) to pattern start (%.3f, %.3f) ***\n", current_position.theta, current_position.rho, points[0].theta, points[0].rho);
+
     play_move(mv);
 
+    printf("*** Pattern start reached ***\n");
+
     // Loop while moves available in pattern
-    for (size_t i = 0; i < pattern.size() - 1; ++i)
+    for (size_t i = 0; i < points.size() - 1; ++i)
     {
         // Get move from current to next position
-        Move mv = planner.get_move_steps(pattern[i], pattern[i + 1]);
+        Move mv = planner.get_move_steps(points[i], points[i + 1]);
         // Execute the move
         play_move(mv);
     }
@@ -169,12 +175,14 @@ void StepMotionMover::play_move(Move move)
     unsigned long current_ts = start_ts;
     unsigned long end_ts = start_ts + move.moveTime;
 
-    printf("Executing move: thetaSteps=%d, rhoSteps=%d, thetaDir=%s, rhoDir=%s, moveTime=%d us\n",
+    printf("Executing move - position:(%.3f, %.3f), steps:(%d, %d), direction:(%s,%s), moveTime=%.3f s\n",
+           move.targetPosition.theta,
+           move.targetPosition.rho,
            move.thetaSteps,
            move.rhoSteps,
            (move.thetaDir == FORWARD) ? "FORWARD" : "BACKWARD",
            (move.rhoDir == FORWARD) ? "FORWARD" : "BACKWARD",
-           move.moveTime);
+           move.moveTime / 1000000.0f);
 
     // Calculate step intervals for each axis
     unsigned long theta_interval = (move.thetaSteps > 0) ? move.moveTime / move.thetaSteps : move.moveTime;

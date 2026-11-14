@@ -62,7 +62,11 @@ Tools that export `.thr`:
 
 ### Limits
 
-- **Points:** up to 5000 points per file (`PatternFile::DEFAULT_MAX_POINTS`). Larger files are rejected rather than drawn partially, because the whole pattern is held in memory (8 bytes per point). If a file is rejected, simplify or reduce the points in the tool that made it.
+- **Points:** the whole pattern is held in memory as one block, 8 bytes per point. A file is rejected (never drawn partially) when:
+  - it has more than 20,000 points (`PatternFile::DEFAULT_MAX_POINTS`), or
+  - its points plus a 16 KB margin don't fit in the ESP32's largest free heap block. This is usually the tighter limit, often around 10,000–12,000 points. The log says how many bytes were needed and how many were free.
+
+  If a file is rejected, simplify it or reduce its points in the tool that made it.
 - **Storage:** the default partition table gives the filesystem about 1.4 MB, enough for many patterns.
 - **File names:** keep them short, lowercase, with no spaces.
 
@@ -102,7 +106,8 @@ pio run -t upload -t monitor                      # flash and watch from boot
 - **Messages to look for:**
   - `Pattern file /patterns/x.thr: loaded N points`: the file loaded.
   - `... skipped N malformed line(s), first at line L`: some lines in the file were bad.
-  - `... rejected, more than 5000 points`: the file is over the limit.
+  - `... rejected, more than 20000 points`: the file is over the point cap.
+  - `... rejected, N points need X bytes, largest free heap block is Y bytes`: the pattern doesn't fit in memory.
   - `... could not be opened`: wrong path, or the file isn't uploaded.
 - **Crash decoding:** if the board crashes (`Guru Meditation Error` with a backtrace of hex addresses), add this to `[esp32_base]` to turn the backtrace into file and line numbers:
 

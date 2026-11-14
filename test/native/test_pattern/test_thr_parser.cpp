@@ -184,6 +184,42 @@ void test_builder_empty_input()
     TEST_ASSERT_TRUE(build("# only comments\n\n").empty());
 }
 
+void test_builder_count_only()
+{
+    const char *text = "# header\n0 0\nbad\n1 0.5\n2 1\n";
+    ThrPatternBuilder counter(MIN_R, MAX_R, 100, true);
+    counter.feed(text, std::strlen(text));
+    TEST_ASSERT_TRUE(counter.finish().empty());
+    TEST_ASSERT_EQUAL(3, counter.point_count());
+    TEST_ASSERT_EQUAL(1, counter.error_count());
+}
+
+void test_builder_count_only_over_cap()
+{
+    const char *text = "0 0\n1 0\n2 0\n";
+    ThrPatternBuilder counter(MIN_R, MAX_R, 2, true);
+    TEST_ASSERT_FALSE(counter.feed(text, std::strlen(text)));
+    TEST_ASSERT_TRUE(counter.too_many_points());
+}
+
+void test_builder_reserve_exact()
+{
+    const char *text = "0 0\n1 0.5\n2 1\n";
+    ThrPatternBuilder counter(MIN_R, MAX_R, 100, true);
+    counter.feed(text, std::strlen(text));
+    counter.finish();
+
+    ThrPatternBuilder builder(MIN_R, MAX_R, 100);
+    builder.reserve(counter.point_count());
+    builder.feed(text, std::strlen(text));
+    std::vector<Coordinates> p = builder.finish();
+    TEST_ASSERT_EQUAL(3, p.size());
+    TEST_ASSERT_EQUAL(3, builder.point_count());
+    // storage allocated once at the exact size, not grown by doubling
+    TEST_ASSERT_EQUAL(3, p.capacity());
+    TEST_ASSERT_FLOAT_WITHIN(1e-4f, MAX_R, p[2].rho);
+}
+
 void setUp() {}
 void tearDown() {}
 
@@ -208,5 +244,8 @@ int main()
     RUN_TEST(test_builder_at_cap_is_accepted);
     RUN_TEST(test_builder_normalises_theta);
     RUN_TEST(test_builder_empty_input);
+    RUN_TEST(test_builder_count_only);
+    RUN_TEST(test_builder_count_only_over_cap);
+    RUN_TEST(test_builder_reserve_exact);
     return UNITY_END();
 }

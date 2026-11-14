@@ -70,6 +70,17 @@ void test_reads_across_chunks()
     TEST_ASSERT_EQUAL(0, pattern_file.error_count());
 }
 
+void test_take_pattern_moves_out()
+{
+    write_test_file("0 0\n1 0.5\n2 1\n");
+    PatternFile pattern_file(LittleFS, TEST_FILE);
+    std::vector<Coordinates> pattern = pattern_file.take_pattern();
+    TEST_ASSERT_EQUAL(3, pattern.size());
+    // loaded at the exact size after the counting pass
+    TEST_ASSERT_EQUAL(3, pattern.capacity());
+    TEST_ASSERT_FALSE(pattern_file.is_valid());
+}
+
 void test_example_pattern()
 {
     if (!LittleFS.exists(EXAMPLE_FILE))
@@ -96,6 +107,7 @@ void setup()
         RUN_TEST(test_skips_malformed_lines);
         RUN_TEST(test_rejects_file_over_cap);
         RUN_TEST(test_reads_across_chunks);
+        RUN_TEST(test_take_pattern_moves_out);
         RUN_TEST(test_example_pattern);
         LittleFS.end();
     }
