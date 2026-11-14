@@ -5,7 +5,7 @@
 class PatternSpiral : public AbstractPattern
 {
 public:
-    PatternSpiral(bool direction_outward = true);
+    PatternSpiral(bool direction_outward = false);
     std::vector<Coordinates> get_pattern() const override;
 
 private:
