@@ -1,6 +1,7 @@
 #ifndef UNIT_TEST
 
 #include <Arduino.h>
+#include <algorithm>
 #include "pattern_file.h"
 #include "thr_parser.h"
 #include "constants.h"
@@ -75,6 +76,47 @@ PatternFile::PatternFile(fs::FS &fs, const char *path, size_t max_points)
     }
     printf("Pattern file %s: loaded %u points (%u bytes)\n", path,
            static_cast<unsigned>(pattern.size()), static_cast<unsigned>(pattern.size() * sizeof(Coordinates)));
+}
+
+static bool ends_with(const String &value, const char *suffix)
+{
+    const size_t suffix_length = strlen(suffix);
+    return value.length() >= suffix_length &&
+           value.substring(value.length() - suffix_length).equalsIgnoreCase(suffix);
+}
+
+std::vector<String> PatternFile::list(fs::FS &fs, const char *dir, const char *extension)
+{
+    std::vector<String> paths;
+    File root = fs.open(dir);
+    if (!root || !root.isDirectory())
+    {
+        printf("Pattern directory %s not found\n", dir);
+        return paths;
+    }
+
+    File entry = root.openNextFile();
+    while (entry)
+    {
+        if (!entry.isDirectory())
+        {
+            String path = entry.path();
+            if (ends_with(path, extension))
+                paths.push_back(path);
+        }
+        entry.close();
+        entry = root.openNextFile();
+    }
+    root.close();
+
+    std::sort(paths.begin(), paths.end());
+    return paths;
+}
+
+std::vector<Coordinates> PatternFile::load(fs::FS &fs, const char *path, size_t max_points)
+{
+    PatternFile patternFile(fs, path, max_points);
+    return patternFile.take_pattern(); // move, no copy (empty if invalid)
 }
 
 std::vector<Coordinates> PatternFile::get_pattern() const

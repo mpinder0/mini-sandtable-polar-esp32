@@ -24,53 +24,52 @@ using MotorControl = MotorControlA4988;
 MotorControl motorControl;
 StepMotionPlanner motionPlanner;
 StepMotionMover motionMover(motorControl, motionPlanner);
+// Kept resident, it is played between every file pattern
 std::vector<Coordinates> patternSpiral;
-std::vector<Coordinates> patternRadial;
-std::vector<Coordinates> patternFromFile_Star;
-std::vector<Coordinates> patternFromFile_10SidePoly;
 
-// .thr pattern on LittleFS, uploaded from data/ with: pio run -t uploadfs
-static const char *PATTERN_FILE_PATH_STAR = "/patterns/star.thr";
-static const char *PATTERN_FILE_PATH_10_SIDED_POLYGON = "/patterns/10_sided_polygon.thr";
+// .thr patterns on LittleFS, uploaded from data/ with: pio run -t uploadfs
+static const char *PATTERN_DIR = "/patterns";
 
 void setup()
 {
 #ifndef UNIT_TEST
   patternSpiral = PatternSpiral().get_pattern();
-  // patternRadial = PatternRadialSweep().get_pattern();
+
+  motionMover.reference();
 
   if (LittleFS.begin())
   {
-    PatternFile patternFileStar(LittleFS, PATTERN_FILE_PATH_STAR);
-    if (patternFileStar.is_valid())
-      patternFromFile_Star = patternFileStar.take_pattern(); // move, no copy
+    const std::vector<String> paths = PatternFile::list(LittleFS, PATTERN_DIR);
+    printf("Found %u pattern file(s) in %s\n", static_cast<unsigned>(paths.size()), PATTERN_DIR);
 
-    PatternFile patternFile10SidePoly(LittleFS, PATTERN_FILE_PATH_10_SIDED_POLYGON);
-    if (patternFile10SidePoly.is_valid())
-      patternFromFile_10SidePoly = patternFile10SidePoly.take_pattern(); // move, no copy
+    bool played_any = false;
+    for (const String &path : paths)
+    {
+      // Scoped to this iteration, so the points are freed before the next file is loaded
+      std::vector<Coordinates> pattern = PatternFile::load(LittleFS, path.c_str());
+      if (pattern.empty())
+        continue;
+
+      // Spiral between file patterns, to clear the previous one before the next is drawn
+      if (played_any)
+      {
+        motionMover.set_pattern(patternSpiral);
+        motionMover.play_pattern();
+      }
+
+      printf("Playing %s (%u points), free heap %u bytes\n", path.c_str(),
+             static_cast<unsigned>(pattern.size()), static_cast<unsigned>(ESP.getFreeHeap()));
+      motionMover.set_pattern(pattern);
+      motionMover.play_pattern();
+      // The mover holds a reference, point it back at the resident spiral before pattern is freed
+      motionMover.set_pattern(patternSpiral);
+      played_any = true;
+    }
   }
   else
   {
     printf("LittleFS mount failed, has the filesystem been uploaded? (pio run -t uploadfs)\n");
-  }
-
-  motionMover.reference();
-
-  if (!patternFromFile_Star.empty())
-  {
-    motionMover.set_pattern(patternFromFile_Star);
-    motionMover.play_pattern();
-  }
-
-  // motionMover.set_pattern(patternRadial);
-  // motionMover.play_pattern();
-
-  motionMover.set_pattern(patternSpiral);
-  motionMover.play_pattern();
-
-  if (!patternFromFile_10SidePoly.empty())
-  {
-    motionMover.set_pattern(patternFromFile_10SidePoly);
+    motionMover.set_pattern(patternSpiral);
     motionMover.play_pattern();
   }
 

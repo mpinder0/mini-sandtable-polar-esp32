@@ -5,6 +5,7 @@
 #ifndef UNIT_TEST
 
 #include <FS.h>
+#include <vector>
 #include "abstract_pattern.h"
 
 // A pattern loaded from a Sisyphus style theta-rho (.thr) file, see thr_parser.h for the format.
@@ -21,6 +22,14 @@ public:
     static constexpr size_t HEAP_MARGIN_BYTES = 16 * 1024;
 
     PatternFile(fs::FS &fs, const char *path, size_t max_points = DEFAULT_MAX_POINTS);
+
+    // Paths of every file in dir ending in extension (case insensitive), sorted by name.
+    // Only the paths are returned, so patterns can be loaded one at a time.
+    static std::vector<String> list(fs::FS &fs, const char *dir, const char *extension = ".thr");
+    // Load a file straight into a vector, empty if it couldn't be loaded.
+    // Nothing else is kept, the points are freed when the returned vector goes out of scope.
+    static std::vector<Coordinates> load(fs::FS &fs, const char *path, size_t max_points = DEFAULT_MAX_POINTS);
+
     // Returns a copy of the pattern. For large patterns prefer take_pattern().
     std::vector<Coordinates> get_pattern() const override;
     // Moves the pattern out without copying, the PatternFile is left empty (is_valid() false).
