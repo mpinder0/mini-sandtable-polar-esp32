@@ -1,6 +1,8 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+#include <stdint.h>
+
 enum Direction
 {
     FORWARD = false,
@@ -20,8 +22,8 @@ struct AxisStepper
     Axis axis;
     Direction dir;
     int total_steps;
-    unsigned long interval; // milliseconds between steps
-    unsigned long next_ts;  // timestamp of next step
+    uint32_t interval; // microseconds between steps
+    uint32_t next_ts;  // micros() timestamp of next step
     int steps_done;
 };
 
@@ -38,7 +40,7 @@ struct Move
     int rhoSteps;
     Direction thetaDir;
     Direction rhoDir;
-    unsigned long moveTime; // milliseconds
+    unsigned long moveTime; // microseconds
 };
 
 #endif

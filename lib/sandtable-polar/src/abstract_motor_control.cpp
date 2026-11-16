@@ -80,12 +80,12 @@ bool AbstractMotorControl::rho_step(bool reverse)
 bool AbstractMotorControl::axis_ready(Axis ax) const
 {
     // Motors enabled and minimum step delay elapsed since the last step
-    return enabled && after_target_timestamp(micros(), next_step_after[ax]);
+    return enabled && after_target_timestamp(static_cast<uint32_t>(micros()), next_step_after[ax]);
 }
 
 void AbstractMotorControl::pulse_axis(Axis ax, bool reverse)
 {
-    next_step_after[ax] = micros() + MIN_STEP_DELAY_US;
+    next_step_after[ax] = static_cast<uint32_t>(micros()) + MIN_STEP_DELAY_US;
     write_step(ax, reverse);
 }
 

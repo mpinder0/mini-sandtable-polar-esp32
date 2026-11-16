@@ -11,4 +11,8 @@
 #include "constants_a4988.h"
 #endif
 
+// Per move log line in StepMotionMover::play_move(). Off by default: each line blocks on serial
+// output (~10 ms at 115200 baud), pausing motion between moves. Enable with -DDEBUG_MOVE_LOG
+// in platformio.ini build_flags.
+
 #endif // CONSTANTS_H

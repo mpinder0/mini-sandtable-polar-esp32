@@ -2,7 +2,7 @@
 #include <cmath>
 
 StepMotionMover::StepMotionMover(AbstractMotorControl &motor_control, StepMotionPlanner &step_motion_planner)
-    : motor_control(motor_control), planner(step_motion_planner), current_position({0, 0})
+    : motor_control(motor_control), planner(step_motion_planner)
 {
     // pass
 }
@@ -14,17 +14,25 @@ StepMotionMover::~StepMotionMover()
 
 Coordinates StepMotionMover::get_current_position()
 {
-    return current_position;
+    return {theta_steps_pos * AXIS_STEP_T, rho_steps_pos * AXIS_STEP_R};
+}
+
+void StepMotionMover::set_position(Coordinates position)
+{
+    theta_steps_pos = position_to_steps(position.theta, AXIS_STEP_T);
+    rho_steps_pos = position_to_steps(position.rho, AXIS_STEP_R);
 }
 
 void StepMotionMover::set_theta_position(float theta)
 {
-    current_position.theta = theta;
+    theta_steps_pos = position_to_steps(theta, AXIS_STEP_T);
 }
 
 void StepMotionMover::reset_theta_position()
 {
-    current_position.theta = std::fmod(current_position.theta, 2.0f * static_cast<float>(PI));
+    // Remove whole rotations, keeping the sign like fmod. Exact, as it's in whole steps.
+    static const int32_t theta_steps_per_rotation = position_to_steps(2.0f * static_cast<float>(PI), AXIS_STEP_T);
+    theta_steps_pos %= theta_steps_per_rotation;
 }
 
 void StepMotionMover::set_pattern(const std::vector<Coordinates> &new_pattern)
@@ -42,19 +50,21 @@ void StepMotionMover::play_pattern()
     reset_theta_position();
 
     // move to pattern start position
-    Move mv = planner.get_move_steps(current_position, points[0]);
+    const Coordinates start_position = get_current_position();
+    Move mv = planner.get_move_steps(start_position, points[0]);
 
-    printf("*** Starting new pattern: Moving from (%.3f, %.3f) to pattern start (%.3f, %.3f) ***\n", current_position.theta, current_position.rho, points[0].theta, points[0].rho);
+    printf("*** Starting new pattern: Moving from (%.3f, %.3f) to pattern start (%.3f, %.3f) ***\n", start_position.theta, start_position.rho, points[0].theta, points[0].rho);
 
     play_move(mv);
 
     printf("*** Pattern start reached ***\n");
 
     // Loop while moves available in pattern
-    for (size_t i = 0; i < points.size() - 1; ++i)
+    for (size_t i = 1; i < points.size(); ++i)
     {
-        // Get move from current to next position
-        Move mv = planner.get_move_steps(points[i], points[i + 1]);
+        // Plan from where the motors actually are, not the previous pattern point, so
+        // per move step rounding is corrected on the next move instead of accumulating
+        Move mv = planner.get_move_steps(get_current_position(), points[i]);
         // Execute the move
         play_move(mv);
     }
@@ -139,7 +149,7 @@ bool StepMotionMover::reference()
     }
 
     // Sensor position is theta zero, rho at the known sensor position
-    current_position = {0.0f, sensor_rho_position};
+    set_position({0.0f, sensor_rho_position});
     printf("Reference complete\n");
     return true;
 }
@@ -171,10 +181,7 @@ int StepMotionMover::seek_sensor(Axis ax, bool reverse, bool sensor_state, int m
 
 void StepMotionMover::play_move(Move move)
 {
-    unsigned long start_ts = micros();
-    unsigned long current_ts = start_ts;
-    unsigned long end_ts = start_ts + move.moveTime;
-
+#ifdef DEBUG_MOVE_LOG
     printf("Executing move - position:(%.3f, %.3f), steps:(%d, %d), direction:(%s,%s), moveTime=%.3f s\n",
            move.targetPosition.theta,
            move.targetPosition.rho,
@@ -183,17 +190,30 @@ void StepMotionMover::play_move(Move move)
            (move.thetaDir == FORWARD) ? "FORWARD" : "BACKWARD",
            (move.rhoDir == FORWARD) ? "FORWARD" : "BACKWARD",
            move.moveTime / 1000000.0f);
+#endif
 
     // Calculate step intervals for each axis
-    unsigned long theta_interval = (move.thetaSteps > 0) ? move.moveTime / move.thetaSteps : move.moveTime;
-    unsigned long rho_interval = (move.rhoSteps > 0) ? move.moveTime / move.rhoSteps : move.moveTime;
+    const uint32_t theta_interval = (move.thetaSteps > 0) ? move.moveTime / move.thetaSteps : move.moveTime;
+    const uint32_t rho_interval = (move.rhoSteps > 0) ? move.moveTime / move.rhoSteps : move.moveTime;
+
+    // Start timing after the (debug) log line, so time spent blocked on serial output
+    // is not taken out of the move
+    const uint32_t start_ts = static_cast<uint32_t>(micros());
 
     AxisStepper theta{THETA, move.thetaDir, move.thetaSteps, theta_interval, start_ts, 0};
     AxisStepper rho{RHO, move.rhoDir, move.rhoSteps, rho_interval, start_ts, 0};
 
-    while (current_ts < end_ts)
+    // Run until the move time has elapsed AND every step has been taken, so steps
+    // delayed by the minimum step delay or the theta/rho coupling are not dropped.
+    // Elapsed time is an unsigned difference, so this is correct across a micros() wrap
+    // (a plain current_ts < end_ts comparison could stall for ~71.6 minutes or skip the move).
+    while (true)
     {
-        current_ts = micros();
+        const uint32_t current_ts = static_cast<uint32_t>(micros());
+        const bool time_done = elapsed_since(current_ts, start_ts) >= move.moveTime;
+        const bool steps_done = theta.steps_done >= theta.total_steps && rho.steps_done >= rho.total_steps;
+        if (time_done && steps_done)
+            break;
 
         // Step each axis if it's time
         step_axis_if_due(theta, current_ts);
@@ -204,7 +224,7 @@ void StepMotionMover::play_move(Move move)
     }
 }
 
-void StepMotionMover::step_axis_if_due(AxisStepper &ax, unsigned long current_ts)
+void StepMotionMover::step_axis_if_due(AxisStepper &ax, uint32_t current_ts)
 {
     if (ax.steps_done < ax.total_steps && after_target_timestamp(current_ts, ax.next_ts))
     {
@@ -217,16 +237,11 @@ void StepMotionMover::step_axis_if_due(AxisStepper &ax, unsigned long current_ts
         ax.steps_done++;
         ax.next_ts += ax.interval;
 
-        // Update the current position based on the axis and direction
+        // Update the step position based on the axis and direction
+        const int32_t step = (ax.dir == FORWARD) ? 1 : -1;
         if (ax.axis == THETA)
-        {
-            // Update current position for theta
-            current_position.theta += (ax.dir == FORWARD) ? AXIS_STEP_T : -AXIS_STEP_T;
-        }
+            theta_steps_pos += step;
         else if (ax.axis == RHO)
-        {
-            // Update current position for rho
-            current_position.rho += (ax.dir == FORWARD) ? AXIS_STEP_R : -AXIS_STEP_R;
-        }
+            rho_steps_pos += step;
     }
 }

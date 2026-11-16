@@ -19,7 +19,8 @@ unsigned long millis()
 
 unsigned long micros()
 {
-    return mock_time;
+    // Wrap at 32 bits like the ESP32, where unsigned long is 32 bit
+    return mock_time & 0xFFFFFFFFUL;
 }
 
 void delay(unsigned long ms)

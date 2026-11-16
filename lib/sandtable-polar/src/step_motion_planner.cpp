@@ -19,18 +19,11 @@ Move StepMotionPlanner::get_move_steps(Coordinates start_pos, Coordinates end_po
 
     move.targetPosition = end_pos;
 
-    // Calculate the difference in position
-    float delta_theta = end_pos.theta - start_pos.theta;
-    float delta_rho = end_pos.rho - start_pos.rho;
-
-    // printf("------\n");
-    // printf("start_pos: %0.2f, %0.2f. end_pos: %0.2f, %0.2f. delta: %0.2f, %0.2f\n", start_pos.theta, start_pos.rho, end_pos.theta, end_pos.rho, delta_theta, delta_rho);
-
-    // Calculate the number of steps for each axis
-    int steps_theta = static_cast<int>(std::round(delta_theta / AXIS_STEP_T));
-    int steps_rho = static_cast<int>(std::round(delta_rho / AXIS_STEP_R));
-
-    // printf("steps_theta: %d, steps_rho: %d\n", steps_theta, steps_rho);
+    // Steps are the difference between each position snapped to the step grid, rather than the
+    // rounded difference. Rounding then can't accumulate across moves: the steps for a sequence
+    // of moves always sum to the grid distance from the first point to the last.
+    int steps_theta = position_to_steps(end_pos.theta, AXIS_STEP_T) - position_to_steps(start_pos.theta, AXIS_STEP_T);
+    int steps_rho = position_to_steps(end_pos.rho, AXIS_STEP_R) - position_to_steps(start_pos.rho, AXIS_STEP_R);
 
     // Determine direction for each axis
     move.thetaDir = (steps_theta < 0) ? BACKWARD : FORWARD;
@@ -40,12 +33,9 @@ Move StepMotionPlanner::get_move_steps(Coordinates start_pos, Coordinates end_po
     move.thetaSteps = std::abs(steps_theta);
     move.rhoSteps = std::abs(steps_rho);
 
-    // Calculate move time for each axis (time = distance / speed)
-    float move_time_theta = std::abs(delta_theta) / AXIS_SPEED_T;
-    float move_time_rho = std::abs(delta_rho) / AXIS_SPEED_R;
-
-    // printf("delta_theta: %.2f, delta_rho: %.2f, speed_theta: %.2f rad/s, speed_rho: %.2f mm/s\n", delta_theta, delta_rho, AXIS_SPEED_T, AXIS_SPEED_R);
-    // printf("move_time_theta: %.2f s, move_time_rho: %.2f s\n", move_time_theta, move_time_rho);
+    // Calculate move time for each axis (time = distance / speed), from the steps actually taken
+    float move_time_theta = move.thetaSteps * AXIS_STEP_T / AXIS_SPEED_T;
+    float move_time_rho = move.rhoSteps * AXIS_STEP_R / AXIS_SPEED_R;
 
     // Use the maximum time required for either axis (for slowest axis)
     move.moveTime = static_cast<unsigned long>(std::max(move_time_theta, move_time_rho) * 1000000.0f); // Convert to microseconds

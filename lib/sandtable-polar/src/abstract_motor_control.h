@@ -28,7 +28,7 @@ protected:
 private:
     bool enabled = false;
     int8_t theta_gear_step_counter = 0;
-    unsigned long next_step_after[2] = {0, 0}; // micros() timestamp, indexed by Axis
+    uint32_t next_step_after[2] = {0, 0};       // micros() timestamp, indexed by Axis
 
     bool theta_step(bool reverse);
     bool rho_step(bool reverse);

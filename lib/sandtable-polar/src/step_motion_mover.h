@@ -37,9 +37,14 @@ private:
     AbstractMotorControl &motor_control;
     StepMotionPlanner &planner;
     const std::vector<Coordinates> *pattern = nullptr;
-    Coordinates current_position = {0, 0};
+    // Position held as whole steps from the origin, so it never drifts from what the motors did.
+    // Floats are only derived from these (get_current_position()), never accumulated.
+    int32_t theta_steps_pos = 0;
+    int32_t rho_steps_pos = 0;
 
-    void step_axis_if_due(AxisStepper &ax, unsigned long current_ts);
+    void set_position(Coordinates position);
+
+    void step_axis_if_due(AxisStepper &ax, uint32_t current_ts);
     // Single blocking step for referencing, then wait step_delay_us
     void reference_step(Axis ax, bool reverse, unsigned int step_delay_us);
     // Step until the reference sensor reads sensor_state.
