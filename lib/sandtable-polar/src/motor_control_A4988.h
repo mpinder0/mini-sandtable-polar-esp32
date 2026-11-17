@@ -30,6 +30,7 @@ private:
         int dir_pin;
         bool invert_dir;
         const char *name;
+        bool dir_level; // last level written to dir_pin, to detect direction changes
     };
 
     // Pin definitions

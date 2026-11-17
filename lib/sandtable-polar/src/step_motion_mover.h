@@ -33,6 +33,10 @@ public:
 private:
     // Rho extension between each full reference rotation, in mm
     static constexpr float REFERENCE_RHO_INCREMENT = 2.0f;
+    // Polling delay per pass of the play_move() loop, in microseconds. Steps can land up to one
+    // pass late, so keep this well below the step intervals. MIN_STEP_DELAY_US is enforced
+    // separately by the motor control.
+    static constexpr unsigned int MOVE_LOOP_DELAY_US = 5;
 
     AbstractMotorControl &motor_control;
     StepMotionPlanner &planner;

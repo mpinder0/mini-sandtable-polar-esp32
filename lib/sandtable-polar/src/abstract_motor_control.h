@@ -28,7 +28,12 @@ protected:
 private:
     bool enabled = false;
     int8_t theta_gear_step_counter = 0;
-    uint32_t next_step_after[2] = {0, 0};       // micros() timestamp, indexed by Axis
+    // micros() of each axis's last step and whether it has stepped yet, indexed by Axis.
+    // Readiness is the elapsed time since the last step, which stays correct across a micros()
+    // wrap however long the axis has been idle. (Comparing against a stored "next step" time
+    // breaks once it is more than 2^31 us stale: it then looks like the future.)
+    uint32_t last_step_ts[2] = {0, 0};
+    bool has_stepped[2] = {false, false};
 
     bool theta_step(bool reverse);
     bool rho_step(bool reverse);

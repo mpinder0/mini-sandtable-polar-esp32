@@ -4,8 +4,8 @@
 #ifndef MOTOR_DRIVER_ULN2803
 
 MotorControlA4988::MotorControlA4988()
-    : axes{{THETA_STEP_PIN, THETA_DIR_PIN, AXIS_T_INVERT_DIR, "theta"},
-           {RHO_STEP_PIN, RHO_DIR_PIN, AXIS_R_INVERT_DIR, "rho"}}
+    : axes{{THETA_STEP_PIN, THETA_DIR_PIN, AXIS_T_INVERT_DIR, "theta", false},
+           {RHO_STEP_PIN, RHO_DIR_PIN, AXIS_R_INVERT_DIR, "rho", false}}
 {
     // Configure pins (skipped under UNIT_TEST)
 #ifndef UNIT_TEST
@@ -44,13 +44,20 @@ void MotorControlA4988::write_enable(bool enable)
 
 void MotorControlA4988::write_step(Axis ax, bool reverse)
 {
-    const AxisOutput &out = axes[ax];
+    AxisOutput &out = axes[ax];
 
     if (out.invert_dir)
         reverse = !reverse;
 
 #ifndef UNIT_TEST
-    digitalWrite(out.dir_pin, !reverse);
+    // Only write DIR when it changes, then give the driver its setup time before the STEP edge
+    const bool dir_level = !reverse;
+    if (dir_level != out.dir_level)
+    {
+        digitalWrite(out.dir_pin, dir_level);
+        out.dir_level = dir_level;
+        delayMicroseconds(DIR_SETUP_US);
+    }
 
     // Pulse the step pin
     digitalWrite(out.step_pin, HIGH);

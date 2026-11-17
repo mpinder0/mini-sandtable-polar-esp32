@@ -219,8 +219,8 @@ void StepMotionMover::play_move(Move move)
         step_axis_if_due(theta, current_ts);
         step_axis_if_due(rho, current_ts);
 
-        // Small delay to prevent tight loop
-        delayMicroseconds(MIN_STEP_DELAY_US);
+        // Short poll delay, so steps aren't held back by up to a whole min step delay
+        delayMicroseconds(MOVE_LOOP_DELAY_US);
     }
 }
 
