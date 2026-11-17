@@ -7,9 +7,11 @@
 #ifdef MOTOR_DRIVER_ULN2803
 #include <motor_control_ULN2803.h>
 using MotorControl = MotorControlULN2803;
+static const char *MOTOR_DRIVER_NAME = "ULN2803 unipolar";
 #else
 #include <motor_control_A4988.h>
 using MotorControl = MotorControlA4988;
+static const char *MOTOR_DRIVER_NAME = "A4988";
 #endif
 #include <step_motion_planner.h>
 #include <step_motion_mover.h>
@@ -33,6 +35,11 @@ static const char *PATTERN_DIR = "/patterns";
 void setup()
 {
 #ifndef UNIT_TEST
+  // Logged here rather than in the constructors, globals are built before the core sets the
+  // CPU clock and serial output sent then comes out garbled
+  printf("MotorControl %s initialized\n", MOTOR_DRIVER_NAME);
+  motionPlanner.print_speed_limits();
+
   patternSpiral = PatternSpiral().get_pattern();
 
   motionMover.reference();
@@ -51,11 +58,11 @@ void setup()
         continue;
 
       // Spiral between file patterns, to clear the previous one before the next is drawn
-      if (played_any)
+      /*if (played_any)
       {
         motionMover.set_pattern(patternSpiral);
         motionMover.play_pattern();
-      }
+      }*/
 
       printf("Playing %s (%u points), free heap %u bytes\n", path.c_str(),
              static_cast<unsigned>(pattern.size()), static_cast<unsigned>(ESP.getFreeHeap()));

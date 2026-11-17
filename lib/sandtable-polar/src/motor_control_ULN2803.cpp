@@ -25,7 +25,6 @@ MotorControlULN2803::MotorControlULN2803()
     // Initialize outputs to a safe state (all coils off)
     set_enable(false);
 
-    printf("MotorControl ULN2803 unipolar initialized\n");
 }
 
 MotorControlULN2803::~MotorControlULN2803()

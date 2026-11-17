@@ -25,7 +25,6 @@ MotorControlA4988::MotorControlA4988()
 
     set_enable(false);
 
-    printf("MotorControl A4988 initialized\n");
 }
 
 MotorControlA4988::~MotorControlA4988()
