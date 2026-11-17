@@ -30,8 +30,11 @@ static constexpr float AXIS_SPEED_T_REF = deg_to_rad(20.0f);
 // Timing constants
 // Minimum delay between steps in microseconds (1 ms = 1000 us). Effectively a speed limit.
 static constexpr unsigned long MIN_STEP_DELAY_US = 50;
-// Step pulse width in microseconds (1 ms = 1000 us)
-static constexpr unsigned int STEP_PULSE_US = MIN_STEP_DELAY_US / 2;
+// Step pulse width in microseconds. A4988 minimum is 1 us high, 1 us low. Kept short as the
+// pulse blocks the step loop.
+static constexpr unsigned int STEP_PULSE_US = 3;
+// Delay after changing DIR before the STEP rising edge, in microseconds. A4988 minimum is 200 ns.
+static constexpr unsigned int DIR_SETUP_US = 1;
 
 // Direction inversion flags (set to true if wiring inverts intended direction)
 static constexpr bool AXIS_T_INVERT_DIR = false;
