@@ -22,19 +22,19 @@ static constexpr float AXIS_STEP_T = deg_to_rad((1.8f / microsteps_per_step) / T
 static constexpr float AXIS_STEP_R = 0.15707963f / microsteps_per_step; // mm
 
 // speed - units per second
-static constexpr float AXIS_SPEED_T = deg_to_rad(5.0f);
-static constexpr float AXIS_SPEED_R = 5.0f;
+static constexpr float AXIS_SPEED_T = deg_to_rad(50.0f);
+static constexpr float AXIS_SPEED_R = 50.0f;
 // reference sensor increment - units
-static constexpr float AXIS_SPEED_T_REF = deg_to_rad(10.0f);
+static constexpr float AXIS_SPEED_T_REF = deg_to_rad(20.0f);
 
 // Timing constants
 // Minimum delay between steps in microseconds (1 ms = 1000 us). Effectively a speed limit.
-static constexpr unsigned long MIN_STEP_DELAY_US = 750;
+static constexpr unsigned long MIN_STEP_DELAY_US = 50;
 // Step pulse width in microseconds (1 ms = 1000 us)
-static constexpr unsigned int STEP_PULSE_US = 150;
+static constexpr unsigned int STEP_PULSE_US = MIN_STEP_DELAY_US / 2;
 
 // Direction inversion flags (set to true if wiring inverts intended direction)
 static constexpr bool AXIS_T_INVERT_DIR = false;
-static constexpr bool AXIS_R_INVERT_DIR = false;
+static constexpr bool AXIS_R_INVERT_DIR = true;
 
 #endif // CONSTANTS_A4988_H
