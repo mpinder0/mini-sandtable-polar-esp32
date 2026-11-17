@@ -55,6 +55,18 @@ void test_step_min_time()
     TEST_ASSERT_TRUE(motorControl.step(THETA));
 }
 
+void test_step_after_long_idle_across_wrap()
+{
+    motorControl.set_enable(true);
+
+    // First step just after a micros() wrap, then idle for over half the wrap period
+    set_time_us(0x100000000UL + 1000);
+    TEST_ASSERT_TRUE(motorControl.step(RHO));
+    delayMicroseconds(0x80000000UL + 1000);
+    // Previously the stored next step time looked like the future, refusing for ~35.8 minutes
+    TEST_ASSERT_TRUE(motorControl.step(RHO));
+}
+
 // Steps theta n times, waiting the minimum delay before each step
 static void step_theta_n(int n)
 {
@@ -110,5 +122,6 @@ int main()
     RUN_TEST(test_step_min_time);
     RUN_TEST(test_theta_coupled_rho_step);
     RUN_TEST(test_theta_waits_for_coupled_rho);
+    RUN_TEST(test_step_after_long_idle_across_wrap);
     return UNITY_END();
 }
