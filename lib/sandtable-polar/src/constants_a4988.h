@@ -12,7 +12,7 @@
 static constexpr float AXIS_MIN_R = 0.0f;
 static constexpr float AXIS_MAX_R = 66.5f;
 
-static constexpr float microsteps_per_step = 16.0f; // 1/4 stepper driver
+static constexpr float microsteps_per_step = 16.0f; // 1/16 stepper driver
 // Note: theta and rho axis are coupled, so for each theta step rho must also step (theta:rho - 8:1)
 static constexpr int THETA_AXIS_GEAR_RATIO = 8; // 8:1 gear ratio
 
