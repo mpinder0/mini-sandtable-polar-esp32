@@ -28,6 +28,18 @@ static constexpr float AXIS_SPEED_R = 3.5f;
 // reference sensor increment - units
 static constexpr float AXIS_SPEED_T_REF = deg_to_rad(10.0f);
 
+// Acceleration ramp (see StepMotionPlanner::get_move_steps), in motor steps.
+// Start rate: the speed an axis can start at from rest, and the largest instant speed change
+// between moves. Above the max speeds (~114 theta, ~456 rho steps/s), so no ramp is applied.
+static constexpr float AXIS_START_RATE_T = 500.0f; // steps/s
+static constexpr float AXIS_START_RATE_R = 500.0f; // steps/s
+// Acceleration above the start rate
+static constexpr float AXIS_ACCEL_T = 2000.0f; // steps/s^2
+static constexpr float AXIS_ACCEL_R = 2000.0f; // steps/s^2
+// Longer moves are split into pieces of at most this many steps, so the ramp builds over
+// the pieces rather than one long move starting at full speed
+static constexpr int MAX_SEGMENT_STEPS = 50;
+
 // Timing constants
 // Minimum delay between steps in microseconds (1 ms = 1000 us). Effectively a speed limit.
 static constexpr unsigned long MIN_STEP_DELAY_US = 2000;

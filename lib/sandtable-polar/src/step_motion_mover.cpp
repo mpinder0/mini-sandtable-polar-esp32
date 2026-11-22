@@ -49,24 +49,42 @@ void StepMotionMover::play_pattern()
     // remove any theta rotations beyond full rotation. 2pi radians.
     reset_theta_position();
 
+    // The axes are at rest, so the speed ramp starts from zero
+    planner.reset();
+
     // move to pattern start position
     const Coordinates start_position = get_current_position();
-    Move mv = planner.get_move_steps(start_position, points[0]);
-
     printf("*** Starting new pattern: Moving from (%.3f, %.3f) to pattern start (%.3f, %.3f) ***\n", start_position.theta, start_position.rho, points[0].theta, points[0].rho);
 
-    play_move(mv);
+    move_to(points[0]);
 
     printf("*** Pattern start reached ***\n");
 
     // Loop while moves available in pattern
     for (size_t i = 1; i < points.size(); ++i)
     {
-        // Plan from where the motors actually are, not the previous pattern point, so
-        // per move step rounding is corrected on the next move instead of accumulating
-        Move mv = planner.get_move_steps(get_current_position(), points[i]);
-        // Execute the move
-        play_move(mv);
+        move_to(points[i]);
+    }
+}
+
+void StepMotionMover::move_to(Coordinates target)
+{
+    const Coordinates start = get_current_position();
+    const int32_t theta_steps = std::abs(position_to_steps(target.theta, AXIS_STEP_T) - theta_steps_pos);
+    const int32_t rho_steps = std::abs(position_to_steps(target.rho, AXIS_STEP_R) - rho_steps_pos);
+    const int32_t pieces = std::max<int32_t>(1, (std::max(theta_steps, rho_steps) + MAX_SEGMENT_STEPS - 1) / MAX_SEGMENT_STEPS);
+
+    for (int32_t k = 1; k <= pieces; ++k)
+    {
+        // Straight line in theta and rho, the last piece lands exactly on target
+        const float f = static_cast<float>(k) / pieces;
+        const Coordinates piece_end = (k == pieces)
+                                          ? target
+                                          : Coordinates{start.theta + (target.theta - start.theta) * f,
+                                                        start.rho + (target.rho - start.rho) * f};
+        // Plan from where the motors actually are, so step rounding is corrected on the
+        // next move instead of accumulating
+        play_move(planner.get_move_steps(get_current_position(), piece_end));
     }
 }
 

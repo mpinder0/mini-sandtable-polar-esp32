@@ -47,6 +47,9 @@ private:
     int32_t rho_steps_pos = 0;
 
     void set_position(Coordinates position);
+    // Move from the current position to target, split into pieces of at most MAX_SEGMENT_STEPS
+    // so the planner's acceleration ramp builds over long moves
+    void move_to(Coordinates target);
 
     void step_axis_if_due(AxisStepper &ax, uint32_t current_ts);
     // Single blocking step for referencing, then wait step_delay_us
