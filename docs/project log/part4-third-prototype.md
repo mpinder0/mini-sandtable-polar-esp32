@@ -6,9 +6,8 @@ The second prototype was fast but noisy. With the TMC2209 "silent" drivers not w
 
 Why the ULN2803:
 
-- It is like the ULN2003 commonly sold on driver boards with the 28BYJ-48, but has 8 channels rather than 7, so **one chip can drive both motors** (4 coils each).
+- It is like the ULN2003 commonly sold on driver boards with the 28BYJ-48, but has 8 channels rather than 7, so **one chip can drive both motors** (4 coils each). This is a common setup for driving unipolar stepper motors such as 28BYJ-48.
 - It costs around £0.30, compared with ~£4 for an A4988.
-- The 28BYJ-48 can be used unmodified as a unipolar motor, without cutting the coil trace (see [part 3](part3-second-prototype.md#side-experiment-28byj-48-on-the-a4988)).
 - The trade-off is that the ESP32 needs 4 output pins per motor, and the software must drive the coils in the correct sequence itself. A shift register such as a 74HC595 could reduce the pin count, but the ESP32 has enough spare pins.
 
 I first built a proof-of-concept on a breadboard, half-stepping one 28BYJ-48 at 2 ms per step. The speed was OK (and could be improved with gearing), it worked well, and it was relatively silent, so I went ahead with the third prototype in November 2026.
@@ -17,8 +16,7 @@ I first built a proof-of-concept on a breadboard, half-stepping one 28BYJ-48 at 
 
 ```mermaid
 flowchart LR
-    PSU[5 V PSU<br/>USB-C] --> ULN
-    PSU -->|via diode| ESP[ESP32 DevKit]
+    PSU[5 V PSU<br/>USB-C] -->|via diode| ESP[ESP32 DevKit]
     PSU --> MT
     PSU --> MR
     ESP -->|4 coil signals| ULN[ULN2803A]
@@ -40,15 +38,15 @@ flowchart LR
 | [28BYJ-48](https://www.ebay.co.uk/sch/i.html?_nkw=28BYJ-48) geared stepper motor (5 V) | 2 | £3 | £6 | |
 | A3144 unipolar Hall-effect sensor | 1 | £0.48 | £0.48 | |
 | 10 kΩ resistor (sensor pull-up) | 1 | ~£0.05* | £0.05 | |
-| Diode (1N400x or similar) | 1 | ~£0.05* | £0.05 | Stops the ESP32 back-feeding the motor supply |
+| Diode (1N400x or similar) | 1 | ~£0.05* | £0.05 | Stops the ESP32 back-feeding the motor supply, since both are 5V  |
 | 100 µF electrolytic capacitor | 1 | ~£0.10* | £0.10 | Across the 5 V supply |
 | Stripboard, headers, connectors, wire | – | ~£2* | £2 | |
-| USB-C power input board | 1 | ~£1* | £1 | Still to be mounted in the body |
-| 5 V 1 A power supply | 1 | £10–15 | £10–15 | |
+| USB-C power input board | 1 | ~£1* | £1 | |
+| 5 V 1 A power supply | 1 | £10–15 | £10–15 | Or use an existing USB-C power supply |
 | Neodymium magnet, 10 × 3 mm disc | 2 | £0.30 | £0.60 | |
-| Steel ball bearing, 20 mm | 1 | ~£0.80* | £0.80 | |
-| 3D-printed parts (PLA) | – | ~£3* | £3 | |
-| **Total** | | | **~£29–34** | The cheapest build so far. The power supply is now the largest single cost |
+| Steel ball bearing, 20 mm | 1 | ~£2.00* | £2.00 | |
+| 3D-printed parts (PLA) | – | ~£4* | £4 | |
+| **Total** | | | **~£32–37** | The cheapest build so far. The power supply is now the largest single cost |
 
 \* Estimated cost.
 
@@ -57,6 +55,8 @@ flowchart LR
 ![Prototype 3 wiring diagram](./media/proto3_wiring.svg)
 
 Everything runs from a single 5 V supply, which powers the motors (through their red common lead), the ULN2803's COM pin (its internal flyback clamp diodes), the Hall sensor, and the ESP32 through its VIN pin. A 100 µF capacitor across the 5 V supply and 0 V smooths the voltage dips and spikes caused by the motor coils switching. As in prototype 2, the Hall sensor's 10 kΩ pull-up goes to the ESP32's 3.3 V rail, not the 5 V supply, so the input never sees more than 3.3 V. A diode in series with VIN stops the ESP32 powering the motors from its USB connection when it is plugged in for programming. It also means that switching off the external supply works as a simple emergency stop — the motors stop while the ESP32 keeps running.
+
+I chose to use JST-XH (2.54mm pin spacing) connectors for the motors and hall effect sensors, for easy disconnection from the board.
 
 ### ESP32 pin assignments
 
@@ -75,19 +75,20 @@ The motors are half-stepped using an 8-state coil sequence, giving 4096 steps pe
 
 ## Mechanical design
 
-The design for prototypes 2 and 3 can be seen in Onshape [here](https://cad.onshape.com/documents/a0c67e172333e1dc4ee2a0a1/w/b964a80dd33fbf93d01219cb/e/df1cbf4bf7a323954b10a3b2).
+The design for prototypes 2 and 3 can be seen in Onshape [here](https://cad.onshape.com/documents/a0c67e172333e1dc4ee2a0a1/w/b964a80dd33fbf93d01219cb/e/df1cbf4bf7a323954b10a3b2) V4.
 
-> 📷 **Screenshot TODO:** `media/proto3_cad.png` — Onshape view of the prototype 3 mechanism with the 28BYJ-48 motors and sprung magnet arm
+![Third prototype mechanism design](media/proto3_cad1.png)
+![Third prototype mechanism design](media/proto3_cad2.png)
 
 - **Motor mounts:** the NEMA17 design was reworked to fit the 28BYJ-48 motors again.
 - **Theta gear ratio:** the 8:1 theta reduction used with the NEMA17 would make the 28BYJ-48 far too slow, so I looked at 2:8 (1:4), 3:6 (1:2) and 4:4 (1:1). Smaller main gears give less support for the rotating assembly, so stability had to be considered too. With a 2 ms minimum step time (500 steps/s), the steps needed for a given theta speed were:
 
     | Ratio | Steps per output degree | 5°/s | 10°/s |
     |-------|-------------------------|------|-------|
-    | 1:1 | 11.38 | 56.9 steps/s (17,578 µs) | 113.8 steps/s (8,789 µs) |
-    | 1:2 | 22.76 | 113.8 steps/s (8,789 µs) | 227.6 steps/s (4,395 µs) |
-    | 1:4 | 45.51 | 227.6 steps/s (4,395 µs) | 455.1 steps/s (2,197 µs) |
-    | 1:8 | 91.02 | 455.1 steps/s (2,197 µs) | 910.2 steps/s (1,099 µs) |
+    | 1:1 | 11.38 | 56.9 steps/s (17,578 µs/step) | 113.8 steps/s (8,789 µs/step) |
+    | 1:2 | 22.76 | 113.8 steps/s (8,789 µs/step) | 227.6 steps/s (4,395 µs/step) |
+    | 1:4 | 45.51 | 227.6 steps/s (4,395 µs/step) | 455.1 steps/s (2,197 µs/step) |
+    | 1:8 | 91.02 | 455.1 steps/s (2,197 µs/step) | 910.2 steps/s (1,099 µs/step) |
 
     The 6:3 (2:1) ratio was chosen, which comfortably allows 5–10°/s. At around 57.3 mm from the centre, 1° of rotation moves the ball about 1 mm, so this is close to 5–10 mm/s at the outer edge.
 - **Axis coupling:** with the 2:1 theta ratio, rho now steps once for every 2 theta steps.
@@ -97,21 +98,19 @@ The design for prototypes 2 and 3 can be seen in Onshape [here](https://cad.onsh
 
 ## Build photos and video
 
-> 📷 **Photo TODO:** `media/proto3_breadboard.jpg` — ULN2803 proof-of-concept on a breadboard
->
-> 📷 **Photo TODO:** `media/proto3_stripboard.jpg` — finished ULN2803 stripboard with connectors
->
-> 📷 **Photo TODO:** `media/proto3_mech.jpg` — mechanism with the 28BYJ-48 motors and 6:3 theta gears
->
-> 📷 **Photo TODO:** `media/proto3_magnet_arm.jpg` — sprung magnet carrier
->
-> 🎥 **Video TODO:** `media/proto3_timelapse.mp4` (or a link) — timelapse of the table drawing a pattern
+![Third prototype electronics](media/proto3_electronics.JPEG)
+![Third prototype built mechanism](media/proto3_mechanism.JPEG)
+![Third prototype pattern](media/proto3_pattern.JPEG)
+
+- [Third prototype - referencing video](media/proto3_referencing.mov)
+- [Third prototype - pattern video](media/proto3_pattern.mov)
+- [Third prototype - patterns timelapse](media/proto3_timelapse.mov)
 
 ## Lessons learned, issues and fixes
 
 - **Quiet.** With some PTFE grease on the moving parts, this version is very quiet and works well.
 - **Missed pull-up.** Electrical checks before connecting the motors, ESP32 and sensor (continuity and voltages at the right points) found that I had left out the Hall sensor's pull-up resistor — easily added.
-- **Sensor false trigger when the supply is off.** The sensor is powered from the external supply and is active-low, so when the external supply is switched off but the ESP32 is still powered over USB, the ESP32 reads the input as LOW and thinks the reference has been found.
+- **Sensor false trigger when the supply is off.** The hall effect sensor is powered from the external supply and is active-low, so when the external supply is switched off but the ESP32 is still powered over USB, the ESP32 reads the input as LOW and thinks the reference has been found. Whilst this is an issue when working with the ESP32 powered from USB, it will not be an issue in normal operation.
 - **Motor directions.** Forward for both motors turns out to be counter-clockwise. That is fine for theta, as the drive gear reverses it to a clockwise arm motion, but rho needed inverting, because a clockwise motor drive pushes the arm outward.
 - **Rho not travelling its full stroke.** The serial diagnostics showed rho being driven faster than the 2 ms minimum step time, so it was missing steps. The 5 mm/s rho speed needed 652 steps/s (1.53 ms per step), so I reduced it to 3.5 mm/s.
 - **Stopping on the third pattern.** When looping through patterns (a file pattern, then radial sweep, then spiral), the table would sometimes stop part-way through the third pattern, at no consistent point. This was traced to a timer value wrapping around in the mover, which caused it to hang, and was fully resolved by updating the timing code (along with some other timing fixes at the same time).
@@ -123,9 +122,8 @@ The design for prototypes 2 and 3 can be seen in Onshape [here](https://cad.onsh
 - **Smoother transitions between patterns:** check that the theta reset and transition moves work correctly, and choose to move forwards or backwards depending on the shortest route.
 - **Power input:** mount the USB-C power board in the body, using an off-the-shelf 5 V 1 A supply.
 - **Controls:** consider adding an external reset or start/stop button.
-- **Sensor:** fix the false trigger when the external supply is switched off.
-- **PCB:** use the wiring diagram as a starting point for a custom PCB. Many 28BYJ-48 motors are sold with 5-pin JST XH (2.54 mm pitch) connectors, so a PCB could have those fitted. An RP2040 (around £4) could be an alternative microcontroller, though it has 2 MB of onboard flash compared with the ESP32's 4 MB.
-- **Speed:** try a geared drive to speed up the 28BYJ-48 — see [part 5](part5-refinements.md).
+- **PCB:** use the wiring diagram as a starting point for a custom PCB. Many 28BYJ-48 motors are sold with 5-pin JST XH (2.54 mm pitch) connectors, so a PCB could have those fitted. An RP2040 (around £4) could be an alternative microcontroller, though it has 2 MB of onboard flash compared with the ESP32's 4 MB, so would likely also need external storage. This wasn't part of the original scope, but is a nice-to-have, saving on stripboard soldering if replecating the design in future.
+- **Speed:** try additional gearing to speed up the 28BYJ-48 — see [part 5](part5-refinements.md).
 
 ---
 
