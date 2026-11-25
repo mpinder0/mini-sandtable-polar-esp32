@@ -1,6 +1,8 @@
+[Contents](../../README.md#project-log) | [Part 2: First prototype →](part2-first-prototype.md)
+
 # Idea and Early Concept
 
-I had been looking for a hardware project to help me learn the combination of 3D printing, electronics, and embedded software for some time. Inspired by commercially available sandtables such as [Sisyphus](https://sisyphus-industries.com/) and [Oasis Mini](https://grounded.so/), as well as DIY projects I had seen while reading the [Hackaday blog](https://hackaday.com/blog/?s=sand+table), I set myself the challenge of building one that could be made largely from 3D-printed parts.
+I had been looking for a hardware project to help me learn the combination of 3D printing, electronics, and embedded software for some time. Inspired by commercially available sandtables such as [Sisyphus](https://sisyphus-industries.com/) and [Oasis Mini](https://grounded.so/), as well open source and and DIY projects I had seen like [Dune Weaver](https://duneweaver.com/) and others seen while reading the [Hackaday blog](https://hackaday.com/blog/?s=sand+table), I set myself the challenge of building one that could be made largely from 3D-printed parts.
 
 The project is primarily a learning exercise: an opportunity to work through the product-development challenges and improve my engineering skills. It is not intended to become a commercial product or to offer a significantly different alternative to existing sandtables.
 
@@ -12,7 +14,7 @@ Example image above taken from the Sisyphus article [here](https://www.thisiscol
 ## Basic Requirements
 
 - Hardware (mechanical and electrical)
-    - As I prefer the aesthetic, the aim is to build a circular sand table.
+    - As I prefer the aesthetic, the aim is to build a circular (Polar) sand table, rather than rectangular (XY).
     - Constructed mostly from 3D-printed or off-the-shelf parts. No significant machining or rework of parts is required, and it should be suitable for hand-tool assembly.
     - Given the objective of making the resulting thing mostly 3D-printable, this sets some size constraints based on the 3D printer’s build volume. I have a Bambu Lab A1 Mini, so the horizontal footprint is slightly smaller than a standard 3D print bed, and should be within 180 mm x 180 mm.
     - The device should be cheap, with a final BOM cost of under £100, ideally closer to £50.
@@ -46,3 +48,7 @@ Example image above taken from the Sisyphus article [here](https://www.thisiscol
         - Mechanical lever switch
         - Hall-effect sensor (and a magnet) for contactless sensing
         - Motor torque or current feedback detection. Detect an increase when the mechanism becomes stalled at the end of travel; this would require specific drive circuitry
+
+---
+
+[Contents](../../README.md#project-log) | [Part 2: First prototype →](part2-first-prototype.md)

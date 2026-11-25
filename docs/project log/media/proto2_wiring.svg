@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="640" viewBox="0 0 980 640" xmlns:c2pa="http://c2pa.org/manifest">
+<rect width="980" height="640" fill="#ffffff"/>
+<text x="490.0" y="30" text-anchor="middle" font-size="20" font-weight="bold" font-family="Helvetica, Arial, sans-serif">Prototype 2 – ESP32, A4988 drivers, NEMA17 motors</text>
+<polyline points="40,60 76,60" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="84" y="64" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Step &amp; direction</text>
+<polyline points="40,80 76,80" fill="none" stroke="#22b14c" stroke-width="2" stroke-linejoin="round"/>
+<text x="84" y="84" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Enable (active LOW)</text>
+<polyline points="40,100 76,100" fill="none" stroke="#f08c00" stroke-width="2" stroke-linejoin="round"/>
+<text x="84" y="104" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">3.3 V logic</text>
+<polyline points="40,120 76,120" fill="none" stroke="#1f77b4" stroke-width="2" stroke-linejoin="round"/>
+<text x="84" y="124" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Reference sensor</text>
+<polyline points="260,60 296,60" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<text x="304" y="64" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">12 V motor supply</text>
+<polyline points="260,80 296,80" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<text x="304" y="84" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">0 V (common)</text>
+<polyline points="260,100 296,100" fill="none" stroke="#4a86e8" stroke-width="6" stroke-linejoin="round"/>
+<text x="304" y="104" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">4-wire motor cable</text>
+<rect x="40" y="150" width="180" height="400" rx="12" fill="#cfe2f3" stroke="#333" stroke-width="1.5"/>
+<text x="130.0" y="356.0" text-anchor="middle" font-size="17" font-weight="bold" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="130" y="175" text-anchor="middle" font-size="16" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif">ESP32 DevKit</text>
+<text x="130" y="535" text-anchor="middle" font-size="10" fill="#000" font-family="Helvetica, Arial, sans-serif">USB 5 V (power + serial)</text>
+<text x="214" y="174" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">3V3</text>
+<text x="214" y="199" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GND</text>
+<text x="214" y="229" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO15</text>
+<text x="214" y="269" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO2</text>
+<text x="214" y="289" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO4</text>
+<text x="214" y="409" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO16</text>
+<text x="214" y="429" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO17</text>
+<text x="214" y="504" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO5</text>
+<rect x="440" y="180" width="170" height="130" rx="12" fill="#fff2cc" stroke="#333" stroke-width="1.5"/>
+<text x="525.0" y="251.0" text-anchor="middle" font-size="17" font-weight="bold" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="525.0" y="243.0" text-anchor="middle" font-size="15" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif">A4988</text>
+<text x="525.0" y="261.0" text-anchor="middle" font-size="13" fill="#000" font-family="Helvetica, Arial, sans-serif">Theta</text>
+<rect x="440" y="330" width="170" height="130" rx="12" fill="#fff2cc" stroke="#333" stroke-width="1.5"/>
+<text x="525.0" y="401.0" text-anchor="middle" font-size="17" font-weight="bold" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="525.0" y="393.0" text-anchor="middle" font-size="15" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif">A4988</text>
+<text x="525.0" y="411.0" text-anchor="middle" font-size="13" fill="#000" font-family="Helvetica, Arial, sans-serif">Rho</text>
+<text x="446" y="199" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">VDD</text>
+<text x="446" y="219" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GND</text>
+<text x="446" y="239" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">EN</text>
+<text x="446" y="269" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">STEP</text>
+<text x="446" y="289" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">DIR</text>
+<text x="604" y="199" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">VMOT</text>
+<text x="604" y="219" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GND</text>
+<text x="604" y="259" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">1A/1B</text>
+<text x="604" y="279" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">2A/2B</text>
+<text x="446" y="349" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">VDD</text>
+<text x="446" y="369" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GND</text>
+<text x="446" y="389" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">EN</text>
+<text x="446" y="419" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">STEP</text>
+<text x="446" y="439" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">DIR</text>
+<text x="604" y="349" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">VMOT</text>
+<text x="604" y="369" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GND</text>
+<text x="604" y="409" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">1A/1B</text>
+<text x="604" y="429" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">2A/2B</text>
+<polyline points="220,265 440,265" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="220,285 440,285" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="220,405 300,405 300,415 440,415" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="220,425 290,425 290,435 440,435" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="220,170 330,170 330,480" fill="none" stroke="#f08c00" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="330,195 330,195" fill="none" stroke="#f08c00" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="330,195 440,195" fill="none" stroke="#f08c00" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="330" cy="195" r="4" fill="#f08c00"/>
+<polyline points="330,345 440,345" fill="none" stroke="#f08c00" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="330" cy="345" r="4" fill="#f08c00"/>
+<polyline points="220,195 250,195 250,205 350,205 350,600" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="350,215 440,215" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="350" cy="215" r="4" fill="#000000"/>
+<polyline points="350,365 440,365" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="350" cy="365" r="4" fill="#000000"/>
+<polyline points="220,225 370,225 370,385" fill="none" stroke="#22b14c" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="370,235 440,235" fill="none" stroke="#22b14c" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="370" cy="235" r="4" fill="#22b14c"/>
+<polyline points="370,385 440,385" fill="none" stroke="#22b14c" stroke-width="2" stroke-linejoin="round"/>
+<rect x="440" y="480" width="170" height="120" rx="12" fill="#d9ead3" stroke="#333" stroke-width="1.5"/>
+<text x="525.0" y="546.0" text-anchor="middle" font-size="17" font-weight="bold" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="525" y="510" text-anchor="middle" font-size="13" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif">A3144 Hall sensor</text>
+<text x="604" y="534" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">VCC</text>
+<text x="446" y="559" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT</text>
+<text x="446" y="584" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GND</text>
+<polyline points="610,530 680,530 680,345" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="220,500 300,500 300,555 440,555" fill="none" stroke="#1f77b4" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="350,580 440,580" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="350" cy="580" r="4" fill="#000000"/>
+<polyline points="400,555 400,516" fill="none" stroke="#1f77b4" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="400" cy="555" r="4" fill="#1f77b4"/>
+<rect x="394" y="488" width="12" height="28" fill="#fff" stroke="#333" stroke-width="1.5"/>
+<text x="410" y="506.0" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="392" y="506" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">10k</text>
+<text x="392" y="474" text-anchor="end" font-size="10" fill="#000" font-family="Helvetica, Arial, sans-serif">pull-up to 3.3 V</text>
+<polyline points="400,488 400,480 330,480" fill="none" stroke="#f08c00" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="330" cy="480" r="4" fill="#f08c00"/>
+<rect x="800" y="70" width="140" height="60" rx="12" fill="#d9d9d9" stroke="#333" stroke-width="1.5"/>
+<text x="870.0" y="98.0" text-anchor="middle" font-size="17" font-weight="bold" font-family="Helvetica, Arial, sans-serif">12 V PSU</text>
+<text x="870.0" y="120.0" text-anchor="middle" font-size="12" fill="#333" font-family="Helvetica, Arial, sans-serif">2 A</text>
+<polyline points="840,130 840,150 680,150 680,345" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="900,130 900,160 700,160 700,625 350,625 350,600" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="610,195 680,195" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="680" cy="195" r="4" fill="#e02020"/>
+<polyline points="610,215 700,215" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="700" cy="215" r="4" fill="#000000"/>
+<polyline points="650,195 650,202.0" fill="none" stroke="#333" stroke-width="1.5" stroke-linejoin="round"/>
+<polyline points="650,208.0 650,215" fill="none" stroke="#333" stroke-width="1.5" stroke-linejoin="round"/>
+<polyline points="642,202.0 658,202.0" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="642,208.0 658,208.0" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round"/>
+<text x="640" y="209.0" text-anchor="end" font-size="10" fill="#000" font-family="Helvetica, Arial, sans-serif">100µF</text>
+<polyline points="610,345 680,345" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="680" cy="345" r="4" fill="#e02020"/>
+<polyline points="610,365 700,365" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="700" cy="365" r="4" fill="#000000"/>
+<polyline points="650,345 650,352.0" fill="none" stroke="#333" stroke-width="1.5" stroke-linejoin="round"/>
+<polyline points="650,358.0 650,365" fill="none" stroke="#333" stroke-width="1.5" stroke-linejoin="round"/>
+<polyline points="642,352.0 658,352.0" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="642,358.0 658,358.0" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round"/>
+<text x="640" y="359.0" text-anchor="end" font-size="10" fill="#000" font-family="Helvetica, Arial, sans-serif">100µF</text>
+<circle cx="860" cy="265" r="55" fill="#cfe2f3" stroke="#333" stroke-width="1.5"/>
+<text x="860" y="263" text-anchor="middle" font-size="14" font-weight="bold" font-family="Helvetica, Arial, sans-serif">NEMA17</text>
+<text x="860" y="281" text-anchor="middle" font-size="11" font-family="Helvetica, Arial, sans-serif">Theta</text>
+<circle cx="860" cy="415" r="55" fill="#cfe2f3" stroke="#333" stroke-width="1.5"/>
+<text x="860" y="413" text-anchor="middle" font-size="14" font-weight="bold" font-family="Helvetica, Arial, sans-serif">NEMA17</text>
+<text x="860" y="431" text-anchor="middle" font-size="11" font-family="Helvetica, Arial, sans-serif">Rho</text>
+<polyline points="610,265 805,265" fill="none" stroke="#4a86e8" stroke-width="6" stroke-linejoin="round"/>
+<polyline points="610,415 805,415" fill="none" stroke="#4a86e8" stroke-width="6" stroke-linejoin="round"/>
+<text x="40" y="600" text-anchor="start" font-size="13" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="720" y="500" text-anchor="start" font-size="13" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif">A4988 set-up</text>
+<text x="720" y="518" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">MS1, MS2, MS3 → VDD (1/16 step)</text>
+<text x="720" y="534" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">RST linked to SLEEP (held HIGH)</text>
+<text x="720" y="550" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Logic GND and motor GND common</text>
+<text x="720" y="566" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Hall VCC from 12 V; OUT pulled to 3.3 V</text>
+<text x="720" y="582" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Motor: 1A black, 1B blue,</text>
+<text x="720" y="598" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">            2A green, 2B red</text>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYToyNTY2ZjRkMi1jZTVlLTQyODgtODRkZS04YTVjYWRhZDE1M2QAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaKWLqZOoDWYlgX3QH+Gv2J0AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo5ZTExNDgxOS01MTgzLTQwZTMtODUzYy04MzBhMDc1NDMzYzRscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoZr11mUEiLH+9SEs556r6XAAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg/69Lqwyr7PP4jeYefwj+VymWZFqaE8er0p+EGqqMClGkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaEU/d4rQxkWQDQ4aLRVXkYQAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIHTH13P7Glzgk8vGWZ1WTNcHWZ8Z3d69ST3SdGRNPf5JZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GTqjZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjI1NjZmNGQyLWNlNWUtNDI4OC04NGRlLThhNWNhZGFkMTUzZC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmViMDFjODdkLWVhYTgtNDI0Ny1iY2YxLTIyMDhmYTMyZTFkMHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD/r0urDKvs8/iN5h5/CP5XKZZkWpoTx6vSn4QaqowKUaJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggaPB31aSLE/y/toeSKk6FLj0Ji+Vg8aFGzM2qHdKjZcOiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggbtvXIntaZb4/9vbwQ1QIMHA/KbgmthrdQqujYpTmNZt0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQMtHOpxYZuYG5onezDrxmXkplrzVqk9QI3rUKHZ7jpUX/6gb3BHBXa3D4EvTYJ/iHNspRcDJzytUmQS933nZKDY=</c2pa:manifest></metadata></svg>

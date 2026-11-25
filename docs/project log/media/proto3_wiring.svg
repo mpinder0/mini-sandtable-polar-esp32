@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="640" viewBox="0 0 980 640" xmlns:c2pa="http://c2pa.org/manifest">
+<rect width="980" height="640" fill="#ffffff"/>
+<text x="490.0" y="30" text-anchor="middle" font-size="20" font-weight="bold" font-family="Helvetica, Arial, sans-serif">Prototype 3 – ESP32, ULN2803 darlington array, 28BYJ-48 motors</text>
+<polyline points="40,60 76,60" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="84" y="64" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Coil drive signals (3.3 V)</text>
+<polyline points="40,80 76,80" fill="none" stroke="#1f77b4" stroke-width="2" stroke-linejoin="round"/>
+<text x="84" y="84" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Reference sensor</text>
+<polyline points="40,100 76,100" fill="none" stroke="#f08c00" stroke-width="2" stroke-linejoin="round"/>
+<text x="84" y="104" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">3.3 V logic</text>
+<polyline points="300,60 336,60" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<text x="344" y="64" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">5 V supply</text>
+<polyline points="300,80 336,80" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<text x="344" y="84" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">0 V (common)</text>
+<polyline points="300,100 336,100" fill="none" stroke="#4a86e8" stroke-width="3" stroke-linejoin="round"/>
+<text x="344" y="104" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Switched coil outputs</text>
+<rect x="800" y="60" width="150" height="60" rx="12" fill="#d9d9d9" stroke="#333" stroke-width="1.5"/>
+<text x="875.0" y="88.0" text-anchor="middle" font-size="17" font-weight="bold" font-family="Helvetica, Arial, sans-serif">5 V PSU</text>
+<text x="875.0" y="110.0" text-anchor="middle" font-size="12" fill="#333" font-family="Helvetica, Arial, sans-serif">USB-C, ~1 A</text>
+<polyline points="130,145 930,145" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="875,120 875,145" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="875" cy="145" r="4" fill="#e02020"/>
+<polyline points="250,615 930,615" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="930,120 930,615" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="925,120 930,120" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<rect x="40" y="200" width="180" height="360" rx="12" fill="#cfe2f3" stroke="#333" stroke-width="1.5"/>
+<text x="130.0" y="386.0" text-anchor="middle" font-size="17" font-weight="bold" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="130" y="245" text-anchor="middle" font-size="16" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif">ESP32 DevKit</text>
+<text x="130" y="548" text-anchor="middle" font-size="10" fill="#000" font-family="Helvetica, Arial, sans-serif">USB for programming</text>
+<polyline points="130,145 130,164.5" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="130,180.5 130,200" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="122,164.5 138,164.5 130,180.5" fill="#333"/>
+<polyline points="122,180.5 138,180.5" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round"/>
+<text x="142" y="176.5" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">1N400x</text>
+<text x="46" y="214" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="130" y="191" text-anchor="middle" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="130" y="216" text-anchor="middle" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">VIN</text>
+<text x="214" y="264" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO18</text>
+<text x="214" y="288" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO19</text>
+<text x="214" y="312" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO21</text>
+<text x="214" y="336" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO22</text>
+<text x="214" y="360" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO27</text>
+<text x="214" y="384" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO26</text>
+<text x="214" y="408" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO25</text>
+<text x="214" y="432" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO33</text>
+<text x="214" y="494" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GPIO23</text>
+<text x="214" y="529" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GND</text>
+<polyline points="220,525 250,525 250,615" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="250" cy="615" r="4" fill="#000000"/>
+<rect x="400" y="230" width="160" height="260" rx="12" fill="#fff2cc" stroke="#333" stroke-width="1.5"/>
+<text x="480.0" y="366.0" text-anchor="middle" font-size="17" font-weight="bold" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="480.0" y="354.0" text-anchor="middle" font-size="15" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif">ULN2803A</text>
+<text x="480.0" y="372.0" text-anchor="middle" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">8-ch darlington</text>
+<text x="406" y="264" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">IN1</text>
+<text x="554" y="264" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT1</text>
+<polyline points="220,260 400,260" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="406" y="288" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">IN2</text>
+<text x="554" y="288" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT2</text>
+<polyline points="220,284 400,284" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="406" y="312" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">IN3</text>
+<text x="554" y="312" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT3</text>
+<polyline points="220,308 400,308" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="406" y="336" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">IN4</text>
+<text x="554" y="336" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT4</text>
+<polyline points="220,332 400,332" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="406" y="360" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">IN5</text>
+<text x="554" y="360" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT5</text>
+<polyline points="220,356 400,356" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="406" y="384" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">IN6</text>
+<text x="554" y="384" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT6</text>
+<polyline points="220,380 400,380" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="406" y="408" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">IN7</text>
+<text x="554" y="408" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT7</text>
+<polyline points="220,404 400,404" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="406" y="432" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">IN8</text>
+<text x="554" y="432" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT8</text>
+<polyline points="220,428 400,428" fill="none" stroke="#8a2be2" stroke-width="2" stroke-linejoin="round"/>
+<text x="406" y="482" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GND (9)</text>
+<text x="554" y="482" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">COM (10)</text>
+<polyline points="400,478 380,478 380,615" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="380" cy="615" r="4" fill="#000000"/>
+<polyline points="560,478 600,478 600,145" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="600" cy="145" r="4" fill="#e02020"/>
+<text x="606" y="470" text-anchor="start" font-size="10" fill="#000" font-family="Helvetica, Arial, sans-serif">flyback clamp</text>
+<circle cx="780" cy="300" r="50" fill="#cfe2f3" stroke="#333" stroke-width="1.5"/>
+<text x="780" y="298" text-anchor="middle" font-size="14" font-weight="bold" font-family="Helvetica, Arial, sans-serif">28BYJ-48</text>
+<text x="780" y="316" text-anchor="middle" font-size="11" font-family="Helvetica, Arial, sans-serif">Theta</text>
+<polyline points="560,260 680,260 730,282" fill="none" stroke="#4a86e8" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="560,284 680,284 730,294" fill="none" stroke="#4a86e8" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="560,308 680,308 730,306" fill="none" stroke="#4a86e8" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="560,332 680,332 730,318" fill="none" stroke="#4a86e8" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="830,300 860,300 860,145" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="860" cy="145" r="4" fill="#e02020"/>
+<circle cx="780" cy="410" r="50" fill="#cfe2f3" stroke="#333" stroke-width="1.5"/>
+<text x="780" y="408" text-anchor="middle" font-size="14" font-weight="bold" font-family="Helvetica, Arial, sans-serif">28BYJ-48</text>
+<text x="780" y="426" text-anchor="middle" font-size="11" font-family="Helvetica, Arial, sans-serif">Rho</text>
+<polyline points="560,356 680,356 730,392" fill="none" stroke="#4a86e8" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="560,380 680,380 730,404" fill="none" stroke="#4a86e8" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="560,404 680,404 730,416" fill="none" stroke="#4a86e8" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="560,428 680,428 730,428" fill="none" stroke="#4a86e8" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="830,410 860,410 860,145" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="860" cy="145" r="4" fill="#e02020"/>
+<text x="866" y="360" text-anchor="start" font-size="10" fill="#000" font-family="Helvetica, Arial, sans-serif">red (common)</text>
+<rect x="400" y="520" width="170" height="80" rx="12" fill="#d9ead3" stroke="#333" stroke-width="1.5"/>
+<text x="485.0" y="566.0" text-anchor="middle" font-size="17" font-weight="bold" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="485" y="540" text-anchor="middle" font-size="13" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif">A3144 Hall sensor</text>
+<text x="564" y="564" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">VCC</text>
+<text x="406" y="569" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">OUT</text>
+<text x="564" y="589" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">GND</text>
+<polyline points="220,490 300,490 300,565 400,565" fill="none" stroke="#1f77b4" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="570,560 640,560 640,145" fill="none" stroke="#e02020" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="640" cy="145" r="4" fill="#e02020"/>
+<polyline points="570,585 620,585 620,615" fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="620" cy="615" r="4" fill="#000000"/>
+<polyline points="340,565 340,530" fill="none" stroke="#1f77b4" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="340" cy="565" r="4" fill="#1f77b4"/>
+<rect x="334" y="500" width="12" height="30" fill="#fff" stroke="#333" stroke-width="1.5"/>
+<text x="350" y="519.0" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="214" y="469" text-anchor="end" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">3V3</text>
+<polyline points="220,465 340,465 340,500" fill="none" stroke="#f08c00" stroke-width="2" stroke-linejoin="round"/>
+<text x="336" y="500" text-anchor="end" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif"></text>
+<text x="660" y="505" text-anchor="start" font-size="13" fill="#000" font-weight="bold" font-family="Helvetica, Arial, sans-serif">Notes</text>
+<text x="660" y="523" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Half-step sequence (8 states) per motor</text>
+<text x="660" y="539" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Diode stops USB 5 V back-feeding the motors</text>
+<text x="660" y="555" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Hall VCC from 5 V; 10k pull-up on OUT to</text>
+<text x="660" y="571" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">  3.3 V keeps the ESP32 input in limits</text>
+<text x="660" y="587" text-anchor="start" font-size="12" fill="#000" font-family="Helvetica, Arial, sans-serif">Pins: theta 18/19/21/22, rho 27/26/25/33</text>
+<text x="352" y="520" text-anchor="start" font-size="11" fill="#000" font-family="Helvetica, Arial, sans-serif">10k</text>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo3NDYyOWEzMi0wZGY3LTQ5ODAtOWQzMy01M2VkMTAxZTJlM2YAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaDKLH0YlgTx7NeOVn//X17wAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDowZDk4YmU2Yy00YjVjLTRhN2UtOWVkNi0zM2ViOWUxOGZjNDhscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNotBrbLunCNjJNtvyed5DAewAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggZTRQ6X3oj3cH9yP4wPC0qDkaBwSrA6dMULQm3+Db6pOkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaPRegpj9CEN32YQ22Kft9r8AAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIDDQSkuhfJt1HW+O8F8u45MaH5ZSgEV+XcAvBPUpqLyRZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GTlvZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjc0NjI5YTMyLTBkZjctNDk4MC05ZDMzLTUzZWQxMDFlMmUzZi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmZhMTJmOTFhLTk3YjEtNGUyMS04OTBkLTYyZmMyZWJjMWEyNHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCBlNFDpfeiPdwf3I/jA8LSoORoHBKsDp0xQtCbf4Nvqk6JjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFgg8iH6nXsLZMFmJ8RZxtx0ZgDtnNEM/zjRgffXmFoG/mCiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggGzPc32hIDTudQNerjzIQ358T62WiQkXKDT9Rdv3RKux0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQLhh0nnaoFlxTC+rb6xQ4n2qOn9e6EvWac1tK3itBNeYNy9sigB6vks5tnxTTL9S28JTFeMNNXGNbwKGnH+wk6Y=</c2pa:manifest></metadata></svg>
