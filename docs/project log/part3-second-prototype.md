@@ -69,7 +69,7 @@ The A3144 Hall sensor is powered from the 12 V motor supply (it is rated 4.5–2
 | GPIO17 | Out | Rho driver DIR |
 | GPIO5 | In | Hall sensor OUT (active LOW, 10 kΩ pull-up to 3.3 V) |
 
-Note with hindsight, there are certain pins best to avoid for certain functions described in detail [here](https://esp32pinout.netlify.app/guides/esp32-safe-gpio), so would be better to chose alternatives to 2,4,5 and 15!
+Note with hindsight, there are certain pins best to avoid for certain functions described in detail [here](https://lastminuteengineers.com/esp32-pinout-reference/), so would be better to chose alternatives to 2,4,5 and 15!
 
 ### A4988 set-up
 
