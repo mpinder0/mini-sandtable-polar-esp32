@@ -8,7 +8,7 @@ The first prototype proved the basic idea worked, but it was slow, the ball move
 - **Motors and drivers:** NEMA17 bipolar steppers driven by A4988 step/direction drivers, replacing the 28BYJ-48 and motor HAT. A dedicated step/direction driver per axis means each step is a single GPIO pulse, rather than a message over I²C.
 - **Mechanism:** a new design in Onshape to fit the larger motors, with an 8:1 theta reduction.
 
-Most of the work described here was done in October 2026, picking up a stripboard and A4988 drivers from an earlier build.
+Most of the work described here was done in October 2026.
 
 ## System layout
 
@@ -35,14 +35,14 @@ flowchart LR
 | A4988 stepper driver | 2 | £4 | £8 | [Link](https://www.pololu.com/product/1182) |
 | NEMA17 stepper motor (17HE08-1004S, 1 A) | 2 | £5 | £10 | [Link](https://www.omc-stepperonline.com/e-series-nema-17-bipolar-1-8deg-17ncm-24-07oz-in-1a-42x42x23mm-4-wires-17he08-1004s) |
 | A3144 unipolar Hall-effect sensor | 1 | £0.48 | £0.48 | [Link](https://components101.com/sensors/a3144-hall-effect-sensor) |
-| 10 kΩ resistor (sensor pull-up) | 1 | ~£0.05* | £0.05 | |
+| 10 kΩ resistor (sensor pull-up) | 1 | ~£0.05* | £0.05 | Could also be omitted by Using the ESP32's software configurable internal pull-up |
 | 100 µF electrolytic capacitor | 2 | ~£0.10* | £0.20 | One across VMOT on each driver |
 | Stripboard, headers, connectors, wire | – | ~£2* | £2 | |
 | 12 V 2 A power supply | 1 | £10–15 | £10–15 | |
 | Neodymium magnet, 10 × 3 mm disc | 2 | £0.30 | £0.60 | |
 | Steel ball bearing, 15 mm | 1 | ~£0.50* | £0.50 | |
-| 3D-printed parts (PLA) | – | ~£3* | £3 | |
-| **Total** | | | **~£40–45** | Within the target, and about half the cost of prototype 1 |
+| 3D-printed parts (PLA) | – | ~£4* | £4 | |
+| **Total** | | | **~£41–46** | Within the target, and about half the cost of prototype 1 |
 
 \* Estimated cost.
 
@@ -69,32 +69,37 @@ The A3144 Hall sensor is powered from the 12 V motor supply (it is rated 4.5–2
 | GPIO17 | Out | Rho driver DIR |
 | GPIO5 | In | Hall sensor OUT (active LOW, 10 kΩ pull-up to 3.3 V) |
 
+Note with hindsight, there are certain pins best to avoid for certain functions described in detail [here](https://esp32pinout.netlify.app/guides/esp32-safe-gpio), so would be better to chose alternatives to 2,4,5 and 15!
+
 ### A4988 set-up
 
 A useful reference: [Control Stepper Motor with A4988 Driver Module & Arduino](https://lastminuteengineers.com/a4988-stepper-motor-driver-arduino-tutorial/).
 
-- Microstepping is set with the MS1–MS3 pins, which are LOW by default (full step). I started at ¼ stepping (MS2 soldered to 3.3 V), then moved to 1/16 stepping (MS1, MS2 and MS3 all HIGH) to reduce noise — see lessons learned below.
+- Microstepping is set with the MS1–MS3 pins, which are LOW by default (full step). I started at ¼ stepping (MS2 HIGH @ 3.3 V), then moved to 1/16 stepping (MS1, MS2 and MS3 all HIGH) to reduce noise — see lessons learned below.
 - RST is held HIGH (linked to SLEEP), as that feature isn't used.
 - Motor wiring: 1A black, 1B blue, 2A green, 2B red.
 
 ## Mechanical design
 
-The design for prototypes 2 and 3 can be seen in Onshape [here](https://cad.onshape.com/documents/a0c67e172333e1dc4ee2a0a1/w/b964a80dd33fbf93d01219cb/e/df1cbf4bf7a323954b10a3b2).
+The design for prototypes 2 and 3 can be seen in Onshape [here](https://cad.onshape.com/documents/a0c67e172333e1dc4ee2a0a1/w/b964a80dd33fbf93d01219cb/e/df1cbf4bf7a323954b10a3b2) V2.
 
-> 📷 **Screenshot TODO:** `media/proto2_cad.png` — Onshape view of the prototype 2 mechanism
+![Second prototype design](./media/proto2_cad1.png)
+![Second prototype design](./media/proto2_cad2.png)
 
+- **Assembly dimensions** Assembly outer diameter 157 mm, sand area diameter 147 mm. Total height ~102 mm.
 - **Theta axis:** 8:1 reduction from the motor drive gear to the main theta gear. With 1.8° steps and 1/16 microstepping, one microstep moves the arm about 0.014°.
 - **Rho axis:** driven by a 10 mm pinion, so each full motor step moves the magnet carriage π × 10 mm × (1.8° / 360°) ≈ 0.157 mm (≈ 0.0098 mm per microstep). Usable travel is 0–66.5 mm from the centre.
 - **Axis coupling:** as in the first prototype, the rho mechanism rides on the rotating theta assembly, so rho must step once for every 8 theta steps to stop the carriage drifting in or out as theta rotates. Getting this coupling into the software was one of the first bugs to fix.
-- **Theta gear support:** the main theta gear was initially supported on a small washer and was quite unstable, tipping as it rotated. I printed an 80 mm washer to sit underneath it, which controlled the tipping.
-- **Homing:** the A3144 Hall-effect sensor is glued in place under the path of the magnet carrier, so the magnet triggers it at the reference position.
+- **Theta gear support:** the main theta gear was initially supported on a small washer and was quite unstable, tipping as it rotated. I printed an 80 mm washer to sit underneath it, which controlled the tipping whilst testing, but would later be designed out, with the gear running directly against the support platform.
+- **Homing:** the A3144 Hall-effect sensor is glued in place under the path of the magnet carrier, so the magnet triggers it at the reference position. A cutout is provided in the design for consistency of positioning.
 
 ## Software
 
 The software was rewritten from scratch in C++ for the ESP32 — see [Software design](../software_design.md) for the class structure (motor control, motion planner and mover). The main changes during this prototype were:
 
 - **Bug fixes:** the 8:1 gearing and theta–rho coupling were missing from the planner, and the total move time calculation could go negative and was then being assigned from a float into an `unsigned long` field.
-- **Speed sweep:** a test program stepped the theta motor at decreasing delays (15 ms down to 1 ms) to find the limits. Using `millis()`, 1 ms between steps was the fastest possible, and an oscilloscope check confirmed the pulse widths and delays were as expected.
+- **Speed sweep:** a temporary test program stepped the theta motor at decreasing delays (15 ms down to 1 ms) to find the limits. Using `millis()`, and worked well down to 1 ms, and an oscilloscope check confirmed the pulse widths and delays were as expected.
+This was later repeated using delays in microseconds `micros()` to find the actual limits of the setup and motors.
 - **Microsecond timing:** moving to 1/16 microstepping meant step timing had to move from `millis()` to `micros()`.
 - **Homing routine:** the first version simply stopped as soon as the sensor triggered. It was then improved to a multi-stage sequence:
     1. Rotate theta until the sensor is found
@@ -107,35 +112,29 @@ The software was rewritten from scratch in C++ for the ESP32 — see [Software d
 
 ## Build photos and video
 
-> 📷 **Photo TODO:** `media/proto2_electronics.jpg` — stripboard with the A4988 drivers and ESP32 wiring
->
-> 📷 **Photo TODO:** `media/proto2_mech.jpg` — mechanism with NEMA17 motors fitted
->
-> 📷 **Photo TODO:** `media/proto2_washer.jpg` — 80 mm printed washer under the theta gear and Hall sensor position
->
-> 📷 **Photo TODO:** `media/proto2_pattern.jpg` — first pattern drawn in sand
->
-> 🎥 **Video TODO (optional):** prototype 2 running
+![Second prototype electronics](./media/proto2_cad1.png)
+![Second prototype mechanism build](./media/proto2_mechanism.png)
+![Second prototype first pattern](./media/proto2_pattern.png)
+![Second prototype referencing video](./media/proto2_referencing.mov)
 
 ## Lessons learned, issues and fixes
 
 - **Much faster.** The ESP32 and step/direction drivers removed the speed limits of the Pi and motor HAT.
-- **Noisy.** The assembly was noisy when moving, from both the motors and rattling 3D-printed parts. Running at 1/16 microstepping and adding vaseline to the rho slide and under the theta gear reduced the noise significantly, but the NEMA17 motors themselves remained quite noisy.
-- **Rattling gear train.** Suggestions for further improvement included herringbone gears, a GT2 belt for the theta drive (e.g. 20T to 160T), PTFE or silicone grease, printing gears in PETG or nylon, and rubber bushings for the motor mounts.
-- **TMC2209 drivers didn't work out (yet).** I bought a pair of TMC2209s as a "silent" drop-in replacement for the A4988s, but couldn't set the current limit using VREF and the potentiometer. On one board the potentiometer rotated continuously with no effect on VREF; the other could only be adjusted between 0 and 0.165 V rather than the expected 0–2.5 V. Setting the current limit over the UART interface is still to be explored.
-- **Jumpy ball.** The ball still moved jerkily through the sand. The next thing to try was finer sand (or something like climbing chalk) — see [part 5](part5-refinements.md).
-- **Upper assembly.** The upper mechanical parts don't interlock properly and twist as the ball moves around.
+- **Noisy.** The assembly was noisy when moving, from both the motors and rattling 3D-printed parts. Running at 1/16 microstepping and adding vaseline to the rho slide and under the theta gear reduced the noise significantly, but the NEMA17 motors themselves remained quite noisy. Alternatively could use PTFE grease.
+- **TMC2209 drivers didn't work out (yet).** I bought a pair of TMC2209s as a "silent" drop-in replacement for the A4988s, but couldn't set the current limit using VREF and the potentiometer. On one board the potentiometer rotated continuously with no effect on VREF; the other could only be adjusted between 0 and 0.165 V rather than the expected 0–2.5 V. These boards can also be configured via UART, but dpong this was not explored further at this stage.
+- **Jumpy ball.** The ball still moved jerkily through the sand. The next thing to try was finer sand — see [part 5](part5-refinements.md).
+- **Upper assembly.** The upper mechanical parts (sand tray and middle riser) don't interlock properly so rotate as the ball drags through the sand.
 
 ### Side experiment: 28BYJ-48 on the A4988
 
-To compare against the NEMA17s, I re-tested the 28BYJ-48 motors on the A4988 drivers. The 28BYJ-48 is unipolar and the A4988 is a bipolar driver, so the motor needs a small modification: removing the blue cover and scratching through the PCB trace that joins the two coils at the centre tap. After the modification, the coil pairs are blue/yellow and brown/black, with red left disconnected.
+To compare against the NEMA17s, I re-tested the 28BYJ-48 motors on the A4988 drivers. The 28BYJ-48 is unipolar and the A4988 is a bipolar driver, so the motor needed a modification: removing the blue cover and scratching through the PCB trace that joins the two coils at the centre tap. After the modification, the coil pairs are blue/yellow and brown/black, with red left disconnected.
 
-With microstepping disabled for maximum speed, the frequency sweep showed the motors worked down to 2 ms between pulses (500 Hz) but didn't move at all at 1 ms (1 kHz). At 2048 steps per revolution, that is just over 4 s per motor revolution, or around 32 s per full theta rotation through an 8:1 gear. By comparison, the NEMA17 has 200 full steps per revolution, so even at a relaxed 10 ms per step a motor revolution takes only 2 s.
+With microstepping disabled for maximum speed, the frequency sweep showed the motors worked down to 2 ms between pulses (500 Hz) but didn't move at all at 1 ms (1 kHz). At 2048 steps per revolution due to it's own internal gearbox, that is just over 4 s per motor revolution, or around 32 s per full theta rotation through an 8:1 gear. By comparison, the NEMA17 has 200 full steps per revolution, so even at a relaxed 10 ms per step a motor revolution takes only 2 s.
 
 ## Next steps
 
-- The NEMA17 build works, but it is noisy for something designed to sit on a desk and run continuously.
-- Quieter options are a working TMC2209 set-up, or going back to the 28BYJ-48 with a better way to drive a unipolar stepper — a ULN2803 darlington array — and a faster theta gear ratio.
+- The NEMA17 build works, including ESP32 control and software re-write, but it is noisy for something designed to sit on a desk and run continuously.
+- Quieter options are a working TMC2209 set-up, or going back to the 28BYJ-48 with a better way to drive a unipolar stepper — ULN2003 (7 channel x2) or ULN2803 (8 channel) darlington array — and a faster theta gear ratio.
 - I bought ULN2803 chips, TMC2209 drivers and PTFE grease to try these, which led to the [third prototype](part4-third-prototype.md).
 
 ---
