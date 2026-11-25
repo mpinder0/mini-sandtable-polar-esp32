@@ -18,8 +18,8 @@ flowchart LR
     HAT -->|coils| MT((28BYJ-48<br/>Theta))
     HAT -->|coils| MR((28BYJ-48<br/>Rho))
     HALL[A3144 Hall sensor] -->|reference| PI
-    MT -->|10T → 60T gear| MECH[Polar arm + magnet]
-    MR -->|rho slide| MECH
+    MT -->|6:1 gear| MECH[Polar arm + magnet]
+    MR -->|10mm pinion| MECH
     MECH -. magnet drags .-> BALL((8 mm ball<br/>in sand))
 ```
 
@@ -64,10 +64,10 @@ Initial build and testing was undertaken circa June 2025.
 ## Lessons learned
 
 - Very slow
-    - Python — checked and was fully executing around 1 ms, cyclically; however, to drive the steppers fast enough this would need to be improved.
-    - Motor HAT update — stepper control uses ICs capable of partial stepping using PWM. Partial stepping can be disabled, but the communication rate to the ICs on the HAT is limited by this.
+    - Python — The code was executing cyclicly every few milliseconds; however, to drive the steppers fast enough this would need to be improved.
+    - Motor HAT update rate — stepper control uses ICs capable of microstepping using PWM. Partial stepping can be disabled, but the communication rate to the ICs on the HAT is limited by this, causing a speed bottleneck.
     - The 64:1 reduction gearbox on the stepper motor requires many steps for small distances moved (2048 steps for a full rotation).
-- Jumpy ball movement — not sure whether this is the coarseness of the sand, the uneven 3D-printed surface caused by a monotonic top layer, or the pull of the magnet (too weak or too strong).
+- Jumpy ball movement — not sure whether this is the coarseness of the sand, the uneven 3D-printed surface caused by a monotonic top layer, or the pull of the magnet (too weak or too strong). To be investigated further.
 - The Raspberry Pi is expensive and too large to realistically fit into the small footprint — the [Pi Zero](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/) could be considered as an improvement on both counts.
 
 ## Next steps
