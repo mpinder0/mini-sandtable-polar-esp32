@@ -112,10 +112,10 @@ This was later repeated using delays in microseconds `micros()` to find the actu
 
 ## Build photos and video
 
-![Second prototype electronics](./media/proto2_cad1.png)
+![Second prototype electronics](./media/proto2_electronics.JPEG)
 ![Second prototype mechanism build](./media/proto2_mechanism.png)
-![Second prototype first pattern](./media/proto2_pattern.png)
-![Second prototype referencing video](./media/proto2_referencing.mov)
+![Second prototype first pattern](./media/proto2_pattern.JPEG)
+[Second prototype referencing video](./media/proto2_referencing.mov)
 
 ## Lessons learned, issues and fixes
 
