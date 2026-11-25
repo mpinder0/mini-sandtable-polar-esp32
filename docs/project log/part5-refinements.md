@@ -50,7 +50,7 @@ This worked well, and the faster ball movement did seem smoother, even with the 
 - **28BYJ-48:** cheap and quiet, but slow, with jumpier ball movement. It meets the original goal of a BOM around £50 comfortably, and is good enough for an ultra-low-cost table.
 - **NEMA17:** faster, with smoother ball movement, but noisy and a bit more expensive (though not outrageously). Still within the £100 budget.
 
-Both builds meet the original requirements from [part 1](part1-introduction.md): circular, mostly 3D-printed, under £100, self-homing, and looping through `.thr` patterns from the filesystem.
+Both builds meet the original requirements from [part 1](part1-introduction.md): circular, mostly 3D-printed, under £100 (and stretch goal <£50 !), self-homing, and looping through `.thr` patterns from the filesystem.
 
 ## Known iussues and future improvements
 
