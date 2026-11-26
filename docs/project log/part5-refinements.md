@@ -58,14 +58,18 @@ Whilst I now feel I have achieved what I set out to do with this project there a
 
 - Mechanical/ Electrical
     - **Quieter NEMA17:** revisit the TMC2209 drivers using UART mode to set the current limit, and reduce mechanical noise with a GT2 belt or herringbone gears, PETG or nylon gears, and soft motor mounts.
-    - **Stronger magnet** to use the 20 mm ball at higher speeds.
-    - **Mechanical improvements:** better interlocking upper sections.
+    - **Stronger magnet** to use the 20 mm ball at higher speeds. Other designs recommend N52 class 8-12mm thickness, 12-20mm diameter.
+    - **Ball smoothness at slow speed:** Continue to experiment and refine.
+    - **Mechanical improvements:** better interlocking upper sections. CAD has been updated, but not reprinted to test.
+    - **Top cover:** glass or another transparent material covering the sand tray. Note that achieving optical clarity, even with transparent filament, is very difficult when 3D printing, so would likely need to be an exception to the "Mostly 3d printed" requirement. I have found an ebay store that will laser cut acrylic, selling 150mm dia, 3mm thickness for ~£4 each.
     - **Elecrical components housing:** USB-C power input mounted in the body Better housing of the interface board and ESP32 with
-    - **Controls:** consider adding an external reset or start/stop button, or controlls for jogging axes.
-    - **Custom PCB** based on the wiring diagrams, possibly with JST XH motor connectors, for quick, repeatable production.
+    - **Controls:** consider adding an external reset or start/stop button, or controlls for jogging axes. External LED or other indicator for status?
+    - **Custom PCB** based on the wiring diagrams, possibly with JST XH motor connectors - for quick, repeatable production.
 - Software
     - **Constant ball speed:** modulate theta speed based on the rho position, as the ball currently travels much faster at the outer edge than near the centre.
     - **Smoother transitions between patterns**, taking the shortest route.
+    - **Unit tests** have been added quite ad-hoc. improve test coverage.
+    - **More patterns:** develop or acquire more patterns suitable for a small table footprint. Many available within existing communities look great, but are tailored to a larger sandtable.
 
 ---
 
