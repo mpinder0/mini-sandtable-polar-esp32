@@ -1,6 +1,8 @@
 # mini-sandtable-polar-esp32
 Control for a polar coordinate sandtable, using an ESP32
 
+![Sand table](sandtable.png)
+
 ## Project log
 1. [Idea and early concept](docs/project%20log/part1-introduction.md): objectives, requirements and subsystems
 2. [First prototype](docs/project%20log/part2-first-prototype.md): Raspberry Pi, motor HAT and 28BYJ-48 motors
